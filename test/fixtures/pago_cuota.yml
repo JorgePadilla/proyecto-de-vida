@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  cuota_id: 1
+  fecha: 2013-06-03
+  numero_deposito: MyString
+  monto: 9.99
+  revisado: false
+
+two:
+  cuota_id: 1
+  fecha: 2013-06-03
+  numero_deposito: MyString
+  monto: 9.99
+  revisado: false

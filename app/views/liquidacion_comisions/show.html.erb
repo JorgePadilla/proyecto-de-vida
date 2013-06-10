@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Empleado:</b>
+  <%= @liquidacion_comision.empleado_id %>
+</p>
+
+<p>
+  <b>Rol:</b>
+  <%= @liquidacion_comision.rol %>
+</p>
+
+<p>
+  <b>Fecha:</b>
+  <%= @liquidacion_comision.fecha %>
+</p>
+
+<p>
+  <b>Monto:</b>
+  <%= @liquidacion_comision.monto %>
+</p>
+
+<%= link_to 'Edit', edit_liquidacion_comision_path(@liquidacion_comision) %> |
+<%= link_to 'Back', liquidacion_comisions_path %>

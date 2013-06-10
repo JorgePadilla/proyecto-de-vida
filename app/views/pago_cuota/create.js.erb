@@ -1,0 +1,7 @@
+var vista="<%= escape_javascript(render(@pago_cuotum))%>";
+$('#pago_cuotum_tabla').append(vista);
+$('#pago_cuotum_tabla #pr15').delay(500).fadeIn();
+
+<%= $saldo_pendiente_cuota-=@pago_cuotum.monto %>
+$('#saldo_pendiente_cuota').text("Saldo pendiente en esta cuotaa: "+<%= $saldo_pendiente_cuota %>);
+

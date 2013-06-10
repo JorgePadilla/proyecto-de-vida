@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121206180453) do
+ActiveRecord::Schema.define(:version => 20130610192501) do
 
   create_table "asesors", :force => true do |t|
     t.string   "nombre"
@@ -93,6 +93,17 @@ ActiveRecord::Schema.define(:version => 20121206180453) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "liquidacion_comisions", :force => true do |t|
+    t.integer  "empleado_id"
+    t.string   "rol"
+    t.date     "fecha"
+    t.integer  "monto"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.date     "fecha_inicio"
+    t.date     "fecha_final"
+  end
+
   create_table "moderadors", :force => true do |t|
     t.string   "nombre"
     t.integer  "coordinador_id"
@@ -117,6 +128,16 @@ ActiveRecord::Schema.define(:version => 20121206180453) do
     t.integer  "cantidad"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "pago_cuota", :force => true do |t|
+    t.date     "fecha"
+    t.string   "numero_deposito"
+    t.decimal  "monto"
+    t.boolean  "revisado"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "cuotum_id"
   end
 
   create_table "pedidos", :force => true do |t|
@@ -148,8 +169,8 @@ ActiveRecord::Schema.define(:version => 20121206180453) do
     t.integer  "numero_cuotas"
     t.float    "valor_cuota"
     t.date     "fecha_inicio_pago"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.integer  "numero_pedido"
     t.string   "telefono_conyugue"
     t.string   "referencia2"
@@ -163,6 +184,14 @@ ActiveRecord::Schema.define(:version => 20121206180453) do
     t.integer  "dias_mora"
     t.string   "estado_pedido"
     t.text     "observaciones"
+    t.boolean  "liquidado_asesor"
+    t.boolean  "liquidado_moderador"
+    t.boolean  "liquidado_coordinador"
+    t.boolean  "liquidado_director_comercial"
+    t.boolean  "liquidado_gerente_comercial"
+    t.date     "fecha_deposito_abono_inicial"
+    t.string   "numero_deposito_abono_inicial"
+    t.boolean  "revisado_abono_inicial"
   end
 
   create_table "permisos", :force => true do |t|

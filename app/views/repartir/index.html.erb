@@ -152,6 +152,10 @@
 <%end%>
 
 </br>
+<% if @string_fecha_inicio!=nil && @string_fecha_final!=nil %>
+	<h2>Desde <%=@string_fecha_inicio%> hasta <%= @string_fecha_final %>
+<% end %>
+</br>
 
 <%= form_tag reparticion_path do %>
 <table>

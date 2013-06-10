@@ -230,13 +230,6 @@
 
     <td>
       <p>
-        <b>Abono inicial:</b><br/>
-        <%= @pedido.abono_inicial %>
-      </p>
-    </td>
-
-    <td>
-      <p>
         <b>Numero cuotas:</b><br/>
         <%= @pedido.numero_cuotas %>
       </p>
@@ -303,6 +296,36 @@
     </td>
 </tr>
 
+<tr>
+    <td>
+      <p>
+        <b>Fecha de abono inicial:</b><br/>
+        <%= @pedido.fecha_deposito_abono_inicial %>
+      </p>
+    </td>
+
+    <td>
+      <p>
+        <b>Numero de deposito de abono inicial:</b><br/>
+        <%= @pedido.numero_deposito_abono_inicial %>
+      </p>
+    </td>
+
+    <td>
+      <p>
+        <b>Abono inicial:</b><br/>
+        <%= @pedido.abono_inicial %>
+      </p>
+    </td>
+
+    <td>
+      <p>
+        <b>Revisado:</b><br/>
+        <%= @pedido.revisado_abono_inicial %>
+      </p>
+    </td>
+</tr>
+
 </table>
 
 <% if soyAdministrador %>
@@ -336,16 +359,16 @@
     <td><%= producto_pedido.pedido_id %></td>
     <td><%= producto_pedido.cantidad %></td>
     <td><%= link_to 'Mostrar', producto_pedido %></td>
-    <td><%= link_to 'Editar', edit_producto_pedido_path(producto_pedido) %></td>
-    <td><%= link_to 'Eliminar', producto_pedido, confirm: 'Are you sure?', method: :delete %></td>
+		<% if soyAdministrador || soyReferenciacion %>
+    	<td><%= link_to 'Editar', edit_producto_pedido_path(producto_pedido) %></td>
+	    <td><%= link_to 'Eliminar', producto_pedido, confirm: 'Are you sure?', method: :delete %></td>
+		<% end %>
   </tr>
 <% end %>
 </table>
 
 
 <!---->
-
-
 
 
 <!-- Form para agregar un nuevo producto -->
@@ -416,7 +439,9 @@
     <td><%= link_to 'Editar', edit_cuotum_path(cuotum) %></td>
     <%end%>
     <%if soyAdministrador%>
+		<!--
     <td><%= link_to 'Eliminar', cuotum, confirm: 'Esta seguro?', method: :delete %></td>
+		-->
     <%end%>
   </tr>
 <% end %>

@@ -1,0 +1,73 @@
+<h1>Nueva liquidacion de asesor</h1>
+<br/>
+
+<%= form_tag buscar_liquidacion_asesor_path do %>
+<table>
+
+  <tr>
+    <td>
+      <b>Empleado:</b>
+    </td>
+    <td>
+			<%= collection_select :dsfg,:asesor_id, Asesor.all, :id, :nombre %>
+	  </td>
+  </tr>
+
+  <tr>
+    <td>
+      <%= submit_tag "Buscar pedidos" %>
+    </td>
+    <td>
+    </td>
+  </tr>
+</table>
+<%end%>
+
+<% if @empleado != nil %>
+
+</br>
+</br>
+
+<table>
+  <tr>
+    <th>Asesor</th>
+    <th>Evento</th>
+    <th>Ciudad</th>
+    <th>Fecha evento</th>
+    <th>Nombre cliente</th>
+    <th>Valor credito</th>
+    <th>Abono inicial</th>
+    <th>Numero cuotas</th>
+    <th>Fecha inicio pago</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+<% if @pedidos!=nil %>
+	<% @pedidos.each do |pedido| %>
+		<tr>
+		  <td><%= link_to pedido.asesor.nombre,pedido.asesor %></td>
+		  <td><%= pedido.evento %></td>
+		  <td><%= pedido.ciudad %></td>
+		  <td><%= pedido.fecha_evento %></td>
+		  <td><%= pedido.nombre_cliente %></td>
+		  <td><%= pedido.valor_credito %></td>
+		  <td><%= pedido.abono_inicial %></td>
+		  <td><%= pedido.numero_cuotas %></td>
+		  <td><%= pedido.fecha_inicio_pago %></td>
+		  <td><%= link_to 'Mostrar', pedido %></td>
+		  <%if soyAdministrador %>
+		  <td><%= link_to 'Editar', edit_pedido_path(pedido) %></td>
+		  <td><%= link_to 'Eliminar', pedido, confirm: 'Esta seguro?', method: :delete %></td>
+		  <%end%>
+		</tr>
+	<% end %>
+<% end %>
+</table>
+
+<br/>
+<%= render 'form' %>
+
+<% end %>
+
+<%= link_to 'Back', liquidacion_comisions_path %>

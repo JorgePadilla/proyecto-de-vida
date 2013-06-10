@@ -4,6 +4,66 @@
   <tr>
     <td>
       <p>
+        <b>Cliente:</b>
+	<%= @cuotum.pedido.nombre_cliente %>
+      </p>
+    </td>
+    <td>
+      <p>
+        <b>Observaciones del pedido:</b>
+	<%= @cuotum.pedido.observaciones %>
+      </p>
+    </td>
+	</tr>
+</table>
+
+<table border="1">
+	<tr>
+    <td>
+      <p>
+        <b>Tel. cliente:</b>
+      </p>
+      <p>
+				<%= @cuotum.pedido.telefono_cliente %>
+      </p>
+    </td>
+    <td>
+      <p>
+        <b>Tel. conyugue:</b>
+      </p>
+      <p>
+				<%= @cuotum.pedido.telefono_conyugue %>
+      </p>
+    </td>
+    <td>
+      <p>
+        <b>Tel. referencia:</b>
+      </p>
+      <p>
+				<%= @cuotum.pedido.telefono_referencia %>
+      </p>
+    </td>
+    <td>
+      <p>
+        <b>Tel. referencia 2:</b>
+      </p>
+      <p>
+				<%= @cuotum.pedido.telefono_referencia2 %>
+      </p>
+    </td>
+    <td>
+      <p>
+        <b>Tel. trabajo:</b>
+      </p>
+      <p>
+				<%= @cuotum.pedido.telefono_trabajo %>
+      </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <p>
         <b>Fecha Cuota:</b>
 	<%= @cuotum.fecha %>
       </p>
@@ -57,12 +117,6 @@
 	<%= @cuotum.descuento %>
       </p>
     </td>
-    <td>
-      <p>
-	<b>Saldo</b>
-	<%= getSaldo(@cuotum.pedido.id, @cuotum.num_cuota) %>
-      </p>
-    </td>
   </tr>
 
   <tr>
@@ -74,7 +128,7 @@
     </td>
     <td>
       <p>
-	<b>Observaciones</b>
+	<b>Observaciones de cuota</b>
 	<%= @cuotum.observaciones %>
       </p>
     </td>
@@ -109,4 +163,81 @@
 <% if soyAdministrador || soyAsistente || soyCobranza %>
 <%= link_to 'Edit', edit_cuotum_path(@cuotum) %> |
 <% end %>
+
+<br/>
+<br/>
+<br/>
+
+<table id="pago_cuotum_tabla">
+  <tr>
+    <th>Fecha</th>
+    <th>Numero deposito</th>
+    <th>Monto</th>
+    <th>Revisado</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% total_pagos_cuota=0 %>
+<% @cuotum.pago_cuota.each do |pago_cuotum| %>
+  <tr>
+    <td><%= pago_cuotum.fecha %></td>
+    <td><%= pago_cuotum.numero_deposito %></td>
+    <td><%= pago_cuotum.monto %></td>
+		<% total_pagos_cuota+=pago_cuotum.monto %>
+    <td><%= pago_cuotum.revisado %></td>
+    <td><%= link_to 'Mostrar', pago_cuotum %></td>
+		<% if soyAdministrador || soyAsistente %>
+	    <td><%= link_to 'Editar', edit_pago_cuotum_path(pago_cuotum) %></td>
+  	  <td><%= link_to 'Eliminar', pago_cuotum, confirm: 'Are you sure?', method: :delete %></td>
+		<% end %>
+  </tr>
+<% end %>
+
+</table>
+
+<% $saldo_pendiente_cuota = getValorCuota(@cuotum.pedido.id).to_i - total_pagos_cuota %>
+<h4 id="saldo_pendiente_cuota">Saldo pendiente en esta cuota: <%= $saldo_pendiente_cuota %></h4>
+
+<br/>
+
+
+<h3>Agregar nuevo pago</h3>
+</br>
+<% pago_cuotum=PagoCuotum.new %>
+
+<%= form_for(pago_cuotum,remote: true) do |f| %>
+	<% if pago_cuotum.errors.any? %>
+	  <div id="error_explanation">
+	    <h2><%= pluralize(pago_cuotum.errors.count, "error") %> prohibited this pago cuota from being saved:</h2>
+
+	    <ul>
+	    <% pago_cuotum.errors.full_messages.each do |msg| %>
+	      <li><%= msg %></li>
+	    <% end %>
+	    </ul>
+	  </div>
+	<% end %>
+	<div class="field" style="display:none">
+	  <%= f.label :cuotum_id %><br />
+	  <%= f.number_field :cuotum_id, :value => @cuotum.id %>
+	</div>
+	<div class="field">
+	  <%= f.label :fecha %><br />
+	  <%= f.date_select :fecha %>
+	</div>
+	<div class="field">
+	  <%= f.label :numero_deposito %><br />
+	  <%= f.text_field :numero_deposito %>
+	</div>
+	<div class="field">
+	  <%= f.label :monto %><br />
+	  <%= f.text_field :monto %>
+	</div>
+	<div class="actions">
+	  <%= f.submit %>
+	</div>
+<% end %>
+
 <%= link_to 'Back', cuota_path %>

@@ -7,7 +7,11 @@
 
 <p>
   <b>Coordinador:</b>
-  <%= @moderador.coordinador_id %>
+	<% if @moderador.coordinador != nil %>
+	  <%= @moderador.coordinador.nombre %>
+	<% else %>
+		Error: no tiene un coordinador asignado.
+	<% end %>
 </p>
 
 <p>

@@ -14,6 +14,51 @@
   <b>Cantidad:</b>
   <%= @transito.cantidad %>
 </p>
+<br/>
+<h2>Notas de entrega</h2>
+<br/>
+<table>
+  <tr>
+    <th>Fecha</th>
+    <th>Numero</th>
+    <th>Transito</th>
+    <th>Cantidad</th>
+  </tr>
+
+<% @transito.nota_entregas.each do |nota_entrega| %>
+  <tr>
+    <td><%= nota_entrega.fecha %></td>
+    <td><%= nota_entrega.numero %></td>
+    <td><%= nota_entrega.transito.nombre %></td>
+    <td><%= nota_entrega.cantidad %></td>
+    <td><%= link_to 'Mostrar', nota_entrega %></td>
+    <td><%= link_to 'Eliminar', nota_entrega, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br/>
+<h2>Notas de devolucion</h2>
+<br/>
+<table>
+  <tr>
+    <th>Fecha</th>
+    <th>Numero</th>
+    <th>Transito</th>
+    <th>Cantidad</th>
+  </tr>
+
+<% @transito.nota_devolucions.each do |nota_devolucion| %>
+  <tr>
+    <td><%= nota_devolucion.fecha %></td>
+    <td><%= nota_devolucion.numero %></td>
+    <td><%= nota_devolucion.transito.nombre %></td>
+    <td><%= nota_devolucion.cantidad %></td>
+    <td><%= link_to 'Mostrar', nota_devolucion %></td>
+    <td><%= link_to 'Eliminar', nota_devolucion, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
 
 
 <%= link_to 'Editar', edit_transito_path(@transito) %> |

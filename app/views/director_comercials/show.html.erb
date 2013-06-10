@@ -7,7 +7,11 @@
 
 <p>
   <b>Gerente comercial:</b>
-  <%= @director_comercial.gerente_comercial_id %>
+	<% if @director_comercial.gerente_comercial != nil %>
+	  <%= @director_comercial.gerente_comercial.nombre %>
+	<% else %>
+	  Error: no tiene un gerente comercial asignado.
+	<% end %>
 </p>
 
 <p>

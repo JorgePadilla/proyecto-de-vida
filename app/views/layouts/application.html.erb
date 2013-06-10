@@ -74,18 +74,48 @@
 			<div id="sidebar">
 				<ul>
 					<li>
-						<h2>Menú</h2>
+						<h2>Pedidos</h2>
 						<ul>
-							<li><%= link_to "Pedidos", pedidos_path %></li>
+							<li><%= link_to "Buscador", pedidos_path %></li>
+							<li><%= link_to "Crear nuevo", new_pedido_path %></li>
+						</ul>
+						<h2>Cuotas</h2>
+						<ul>
+							<li><%= link_to "Buscador", cuota_path %></li>
+							<li><%= link_to "Repartir cuotas", repartir_path %></li>
+						</ul>
+						<h2>Ventas</h2>
+						<ul>
+							<li><%= link_to "Ver piramide", "/ventas" %></li>
+						</ul>
+						<h2>Inventario</h2>
+						<ul>
 							<li><%= link_to "Productos", productos_path %></li>
 							<li><%= link_to "Inventario", inventarios_path %></li>
-							<li><%= link_to "Entrada a inventario", new_entrada_inventario_path %></li>
 							<li><%= link_to "Tránsito", transitos_path %></li>
-							<li><%= link_to "Nota de entrega", new_nota_entrega_path %></li>
-							<li><%= link_to "Nota de devolucion", new_nota_devolucion_path %></li>
-							<li><%= link_to "Ventas", "/ventas" %></li>
-							<li><%= link_to "Cuotas", cuota_path %></li>
-							<li><%= link_to "Repartir cuotas", repartir_path %></li>
+						</ul>
+						<h2>Entradas</h2>
+						<ul>
+							<li><%= link_to "Ver todas", entrada_inventarios_path %></li>
+							<li><%= link_to "Crear nueva", new_entrada_inventario_path %></li>
+						</ul>
+						<h2>Notas de entrega</h2>
+						<ul>
+							<li><%= link_to "Ver todas", nota_entregas_path %></li>
+							<li><%= link_to "Crear nueva", new_nota_entrega_path %></li>
+						</ul>
+						<h2>Notas de devolucion</h2>
+						<ul>
+							<li><%= link_to "Ver todas", nota_devolucions_path %></li>
+							<li><%= link_to "Crear nueva", new_nota_devolucion_path %></li>
+						</ul>
+						<h2>Liquidaciones</h2>
+						<ul>
+							<li><%= link_to "Crear nueva para gerente comercial", liquidacion_gerente_comercial_path %></li>
+							<li><%= link_to "Crear nueva para director comercial", liquidacion_director_comercial_path %></li>
+							<li><%= link_to "Crear nueva para coordinador", liquidacion_coordinador_path %></li>
+							<li><%= link_to "Crear nueva para moderador", liquidacion_moderador_path %></li>
+							<li><%= link_to "Crear nueva para asesor", new_liquidacion_comision_path %></li>
 						</ul>
 					</li>
 				</ul>

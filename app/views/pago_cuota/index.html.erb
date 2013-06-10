@@ -1,0 +1,31 @@
+<h1>Listing pago_cuota</h1>
+
+<table>
+  <tr>
+    <th>Cuota</th>
+    <th>Fecha</th>
+    <th>Numero deposito</th>
+    <th>Monto</th>
+    <th>Revisado</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @pago_cuota.each do |pago_cuotum| %>
+  <tr>
+    <td><%= pago_cuotum.cuotum_id %></td>
+    <td><%= pago_cuotum.fecha %></td>
+    <td><%= pago_cuotum.numero_deposito %></td>
+    <td><%= pago_cuotum.monto %></td>
+    <td><%= pago_cuotum.revisado %></td>
+    <td><%= link_to 'Show', pago_cuotum %></td>
+    <td><%= link_to 'Edit', edit_pago_cuotum_path(pago_cuotum) %></td>
+    <td><%= link_to 'Destroy', pago_cuotum, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Pago cuotum', new_pago_cuotum_path %>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  empleado_id: 1
+  rol: MyString
+  fecha: 2013-02-12
+  monto: 1
+
+two:
+  empleado_id: 1
+  rol: MyString
+  fecha: 2013-02-12
+  monto: 1

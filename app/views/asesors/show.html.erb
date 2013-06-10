@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<h2>Informacion general</h2>
+
 <p>
   <b>Nombre:</b>
   <%= @asesor.nombre %>
@@ -12,7 +14,11 @@
 
 <p>
   <b>Moderador:</b>
-  <%= @asesor.moderador.nombre %>
+	<% if @asesor.moderador!= nil %>
+	  <%= @asesor.moderador.nombre %>
+	<% else %>
+	  Error:No tiene un moderador asignado.
+	<% end %>
 </p>
 
 <p>
@@ -21,66 +27,129 @@
 </p>
 
 <p>
+	<b>Comision contado asesor(%):</b>
+	<%= @asesor.comision_contado_asesor %>
+</p>
+
+<p>
   <b>Comision contado empresa(%):</b>
   <%= @asesor.comision_contado_empresa %>
 </p>
 
-<p>
-  <b>Comision contado asesor(%):</b>
-  <%= @asesor.comision_contado_asesor %>
-</p>
+</br>
+<h2>Ventas y comisiones</h2>
 
-<p>
-  <b>Total ventas credito:</b>
-  <%= getTotalVentasCredito @asesor.id %>
-</p>
 
-<p>
-  <b>Total ventas contado asesor:</b>
-  <%= getTotalVentasContadoAsesor @asesor.id %>
-</p>
+<%ventas_credito = getTotalVentasCredito @asesor.id%>
+<%ventas_contado_asesor = getTotalVentasContadoAsesor @asesor.id%>
+<%ventas_contado_empresa = getTotalVentasContadoEmpresa @asesor.id%>
+<%comisiones_credito = (ventas_credito)*@asesor.comision_credito/100%>
+<%comisiones_contado_asesor = (ventas_contado_asesor)*@asesor.comision_contado_asesor/100%>
+<%comisiones_contado_empresa = (ventas_contado_empresa)*@asesor.comision_contado_asesor/100%>
 
-<p>
-  <b>Total ventas credito:</b>
-  <%= getTotalVentasContadoEmpresa @asesor.id %>
-</p>
+<table>
+	<tr>
+		<td></td>
+		<td>Total ventas</td>
+		<td>Total comisiones</td>
+	<tr>
+	<tr>
+		<td>Credito</td>
+		<td><%= ventas_credito %></td>
+		<td><%= comisiones_credito %></td>
+	<tr>
+	<tr>
+		<td>Contado asesor</td>
+		<td><%= ventas_contado_asesor %></td>
+		<td><%= comisiones_contado_asesor %></td>
+	<tr>
+	<tr>
+		<td>Contado empresa</td>
+		<td><%= ventas_contado_empresa %></td>
+		<td><%= comisiones_contado_empresa %></td>
+	<tr>
+	<tr>
+		<td><b>Total</b></td>
+		<td><b><%=ventas_credito+ventas_contado_asesor+ventas_contado_empresa%></b></td>
+		<td><b><%=comisiones_credito+comisiones_contado_asesor+comisiones_contado_empresa%></b></td>
+	<tr>
+</table>
+
+</br>
+<h2>Comisiones y liquidaciones</h2>
+<table>
+	<tr>
+		<td>Fecha</td>
+		<td>Ventas</td>
+		<td>Comision</td>
+	</tr>
+</table>
 
 </br>
 </br>
 
 <table>
-  <tr>
-    <th>Asesor</th>
-    <th>Evento</th>
-    <th>Ciudad</th>
-    <th>Fecha evento</th>
-    <th>Nombre cliente</th>
-    <th>Valor credito</th>
-    <th>Abono inicial</th>
-    <th>Numero cuotas</th>
-    <th>Fecha inicio pago</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+	<tr>
+	  <th>Asesor</th>
+	  <th>Evento</th>
+	  <th>Ciudad</th>
+	  <th>Fecha evento</th>
+	  <th>Nombre cliente</th>
+	  <th>Valor credito</th>
+	  <th>Abono inicial</th>
+	  <th>Numero cuotas</th>
+	  <th>Fecha inicio pago</th>
+	  <th></th>
+	  <th></th>
+	  <th></th>
+	</tr>
 
 <% getPedidosAsesor(@asesor.id).each do |pedido| %>
-  <tr>
-    <td><%= link_to pedido.asesor.nombre,pedido.asesor %></td>
-    <td><%= pedido.evento %></td>
-    <td><%= pedido.ciudad %></td>
-    <td><%= pedido.fecha_evento %></td>
-    <td><%= pedido.nombre_cliente %></td>
-    <td><%= pedido.valor_credito %></td>
-    <td><%= pedido.abono_inicial %></td>
-    <td><%= pedido.numero_cuotas %></td>
-    <td><%= pedido.fecha_inicio_pago %></td>
-    <td><%= link_to 'Mostrar', pedido %></td>
-    <%if soyAdministrador %>
-    <td><%= link_to 'Editar', edit_pedido_path(pedido) %></td>
-    <td><%= link_to 'Eliminar', pedido, confirm: 'Esta seguro?', method: :delete %></td>
-    <%end%>
-  </tr>
+	<tr>
+	  <td><%= link_to pedido.asesor.nombre,pedido.asesor %></td>
+	  <td><%= pedido.evento %></td>
+	  <td><%= pedido.ciudad %></td>
+	  <td><%= pedido.fecha_evento %></td>
+	  <td><%= pedido.nombre_cliente %></td>
+	  <td><%= pedido.valor_credito %></td>
+	  <td><%= pedido.abono_inicial %></td>
+	  <td><%= pedido.numero_cuotas %></td>
+	  <td><%= pedido.fecha_inicio_pago %></td>
+	  <td><%= link_to 'Mostrar', pedido %></td>
+	  <%if soyAdministrador %>
+	  <td><%= link_to 'Editar', edit_pedido_path(pedido) %></td>
+	  <td><%= link_to 'Eliminar', pedido, confirm: 'Esta seguro?', method: :delete %></td>
+	  <%end%>
+	</tr>
+<% end %>
+</table>
+
+
+</br>
+<h2>Transito</h2>
+<table>
+	<tr>
+	  <th>Producto en inventario</th>
+	  <th>Asesor</th>
+	  <th>Cantidad</th>
+	  <th></th>
+	  <th></th>
+	  <th></th>
+	</tr>
+
+<% @asesor.transitos.each do |transito| %>
+	<tr>
+		<% if transito.inventario != nil %>
+		  <td><%= transito.inventario.nombre %></td>
+		<% else %>
+			<td>Error! No existe el producto en el inventario</td>
+		<% end %>
+	  <td><%= link_to transito.asesor.nombre, transito.asesor %></td>
+	  <td><%= transito.cantidad %></td>
+	  <td><%= link_to 'Mostrar', transito %></td>
+	  <td><%= link_to 'Editar', edit_transito_path(transito) %></td>
+	  <td><%= link_to 'Eliminar', transito, confirm: 'Are you sure?', method: :delete %></td>
+	</tr>
 <% end %>
 </table>
 

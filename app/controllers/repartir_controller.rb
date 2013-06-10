@@ -64,7 +64,10 @@ class RepartirController < ApplicationController
       dia_final="0"+dia_final
     end
 
-    str = " fecha_inicio_pago BETWEEN '" + anio_inicio + "-" + mes_inicio + "-" + dia_inicio + "' and '" + anio_final + "-" + mes_final + "-" + dia_final + "'"
+		@string_fecha_inicio = anio_inicio + "-" + mes_inicio + "-" + dia_inicio
+		@string_fecha_final = anio_final + "-" + mes_final + "-" + dia_final
+
+    str = " fecha_inicio_pago BETWEEN '" + @string_fecha_inicio + "' and '" + @string_fecha_final + "'"
 
     $pedidos = Pedido.where(str)
 

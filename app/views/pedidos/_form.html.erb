@@ -95,7 +95,7 @@
   <td>
   <div id="campopedido" class="field">
     <%= f.label :direccion_cliente %><br/>
-    <%= f.text_field :direccion_cliente %>
+    <%= f.text_field :direccion_cliente, :autocomplete=>"off" %>
   </div>
   </td>
 
@@ -232,13 +232,6 @@
 
   <td>
   <div id="campopedido" class="field">
-    <%= f.label :abono_inicial %><br/>
-    <%= f.text_field :abono_inicial, :min=>0, :value=>0 %>
-  </div>
-  </td>
-
-  <td>
-  <div id="campopedido" class="field">
     <%= f.label :numero_cuotas %><br/>
     <%= f.number_field :numero_cuotas, :min=>0, :value=>1 %>
   </div>
@@ -313,7 +306,7 @@
   <td>
   <div id="campopedido" class="field">
     <%= f.label :estado_pedido %><br/>
-    <%= f.select :estado_pedido, ["Perdido", "Devolución", "Pendiente","Contado","Fin de Crédito","Recoger Mercancía","Pendiente de Validar","Devolución Bódega","Ilocalizable","Prejurídico","Jurídico"] %>
+    <%= f.select :estado_pedido, ["Pendiente", "Devolucion", "Perdido", "Contado","Fin de Credito","Recoger Mercancia","Pendiente de Validar","Devolucion Bodega","Ilocalizable","Prejuridico","Juridico","Nomina"] %>
   </div>
   </td>
 
@@ -324,6 +317,36 @@
     </div>
   </td>
 </tr>
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :fecha_deposito_abono_inicial %><br/>
+    <%= f.date_select :fecha_deposito_abono_inicial %>
+  </div>
+  </td>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :numero_deposito_abono_inicial %><br/>
+    <%= f.text_field :numero_deposito_abono_inicial %>
+  </div>
+  </td>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :abono_inicial %><br/>
+    <%= f.text_field :abono_inicial, :min=>0, :value=>0 %>
+  </div>
+  </td>
+</tr>
+<% if soyAdministrador || soyAsistente %>
+<tr>
+  <td>
+  <div class="field">
+    <%= f.label :revisado_abono_inicial %><br />
+    <%= f.check_box :revisado_abono_inicial %>
+  </div>
+  </td>
+</tr>
+<% end %>
 <tr>
   <td>
   <div id="campopedido" class="actions">

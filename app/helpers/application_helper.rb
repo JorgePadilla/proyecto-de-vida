@@ -51,13 +51,36 @@ module ApplicationHelper
 
 
   def getValorCuotaInt pedido_id
-    p=Pedido.find_by_id(pedido_id)
-    return (p.valor_credito-p.abono_inicial)/p.numero_cuotas
+		vc=0
+		if p.valor_credito!=nil
+			vc=p.valor_credito
+		end
+		ac=0
+		if p.abono_inicial!=nil
+			ac=p.abono_inicial
+		end
+		nc=1
+		if p.numero_cuotas!=nil
+			nc=p.numero_cuotas
+		end
+    return (vc-ac)/nc
   end
 
   def getValorCuota pedido_id
     p=Pedido.find_by_id(pedido_id)
-    return number_to_currency((p.valor_credito-p.abono_inicial)/p.numero_cuotas, :format => "%n")
+		vc=0
+		if p.valor_credito!=nil
+			vc=p.valor_credito
+		end
+		ac=0
+		if p.abono_inicial!=nil
+			ac=p.abono_inicial
+		end
+		nc=1
+		if p.numero_cuotas!=nil
+			nc=p.numero_cuotas
+		end
+    return number_to_currency((vc-ac)/nc, :format => "%n")
   end
 
 
@@ -130,7 +153,9 @@ module ApplicationHelper
 		resultado = 0
 		pedidos = Pedido.where(:asesor_id=>asesor_id, :tipo_pago=>"Credito")
 		pedidos.each do |p|
-			resultado+=p.valor_credito
+			if p.valor_credito!=nil
+				resultado+=p.valor_credito
+			end
 		end
 		return resultado
 	end
@@ -151,5 +176,36 @@ module ApplicationHelper
 			resultado+=p.valor_credito
 		end
 		return resultado
+	end
+
+	def getCuotasPendientes
+		if soyCobranza
+			return Cuotum.where(:usuario_id=>current_user,:estado=>"Pendiente").count
+		end
+		return Cuotum.where(:estado=>"Pendiente").count
+	end
+	def getCuotasPagadas
+		if soyCobranza
+			return Cuotum.where(:usuario_id=>current_user,:estado=>"Pagado").count
+		end
+		return Cuotum.where(:estado=>"Pagado").count
+	end
+	def getCuotasRevisadas
+		if soyCobranza
+			return Cuotum.where(:usuario_id=>current_user,:revisado=>true).count
+		end
+		return Cuotum.where(:revisado=>true).count
+	end
+
+	def getCantPedidosPendientes
+		res=0
+		Pedido.all.each do |p|
+			c=p.cuota.where(:estado=>"Pendiente")
+			if(c.count<0)
+				res+=1
+			end
+			res+=1
+		end
+		return res
 	end
 end

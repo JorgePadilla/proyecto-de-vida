@@ -1,0 +1,47 @@
+
+<%= form_for(@liquidacion_comision) do |f| %>
+  <% if @liquidacion_comision.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@liquidacion_comision.errors.count, "error") %> prohibited this liquidacion_comision from being saved:</h2>
+
+      <ul>
+      <% @liquidacion_comision.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :fecha %><br />
+    <%= f.date_select :fecha %>
+  </div>
+
+  <div class="field">
+    <%= f.label :empleado_id %><br />
+		<%= @empleado %>
+  </div>
+
+  <div class="field">
+    <%= f.label :monto %><br />
+    <%= @monto %>
+  </div>
+<!--
+  <div class="field">
+    <%= f.label :monto %><br />
+    <%= f.number_field :monto %>
+  </div>
+
+  <div class="field">
+    <%= f.label :fecha_inicio %><br />
+    <%= f.date_select :fecha_inicio %>
+  </div>
+  <div class="field">
+    <%= f.label :fecha_final %><br />
+    <%= f.date_select :fecha_final %>
+  </div>
+-->
+  <div class="actions">
+    <%= f.submit 'Ingresar liquidacion' %>
+  </div>
+<% end %>

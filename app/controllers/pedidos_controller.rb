@@ -42,15 +42,21 @@ class PedidosController < ApplicationController
   def create
     @pedido = Pedido.new(params[:pedido])
 
+		@pedido.liquidado_asesor=false
+		@pedido.liquidado_moderador=false
+		@pedido.liquidado_coordinador=false
+		@pedido.liquidado_director_comercial=false
+		@pedido.liquidado_gerente_comercial=false
+
     respond_to do |format|
       if @pedido.save
 
 	#crear cuotas
 	#crearCuotas @pedido.numero_cuotas, @pedido.id
         i=0
-				if @pedido.abono_inicial>0
-					i+=1
-				end
+				#if @pedido.abono_inicial>0
+				#	i+=1
+				#end
         while i<@pedido.numero_cuotas
           c = Cuotum.new
           c.pedido_id=@pedido.id
@@ -89,12 +95,20 @@ class PedidosController < ApplicationController
   # DELETE /pedidos/1.json
   def destroy
     @pedido = Pedido.find(params[:id])
+
+		#destroy cuotas
+		@pedido.cuota.each do |c|
+			c.destroy
+			c.save
+		end
+
     @pedido.destroy
 
     respond_to do |format|
 
 			@pedido.cuota.each do |c|
 				c.destroy
+				c.save
 			end
 
       format.html { redirect_to pedidos_url }
@@ -118,7 +132,7 @@ class PedidosController < ApplicationController
 
     str=""
     if nombre!=""
-      str+="nombre_cliente = "+ "\"" + nombre + "\" "
+      str+="nombre_cliente like "+ "\"" + nombre + "%\" "
     end
 
     if numero!=""
@@ -147,6 +161,13 @@ class PedidosController < ApplicationController
         str+= "and "
       end
       str+="identidad_cliente = "+ "\"" + identidad + "\" "
+    end
+
+    if estado!=""
+      if str!=""
+        str+= "and "
+      end
+      str+="estado_pedido = "+ "\"" + estado + "\" "
     end
 
     if str!=""

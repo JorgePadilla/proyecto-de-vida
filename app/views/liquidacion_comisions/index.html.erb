@@ -1,0 +1,33 @@
+<h1>Listing liquidacion_comisions</h1>
+
+<table>
+  <tr>
+    <th>Empleado</th>
+    <th>Rol</th>
+    <th>Fecha</th>
+    <th>Monto</th>
+    <th>Fecha inicio</th>
+    <th>Fecha final</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @liquidacion_comisions.each do |liquidacion_comision| %>
+  <tr>
+    <td><%= liquidacion_comision.empleado_id %></td>
+    <td><%= liquidacion_comision.rol %></td>
+    <td><%= liquidacion_comision.fecha %></td>
+    <td><%= liquidacion_comision.monto %></td>
+    <td><%= liquidacion_comision.fecha_inicio %></td>
+    <td><%= liquidacion_comision.fecha_final %></td>
+    <td><%= link_to 'Show', liquidacion_comision %></td>
+    <td><%= link_to 'Edit', edit_liquidacion_comision_path(liquidacion_comision) %></td>
+    <td><%= link_to 'Destroy', liquidacion_comision, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Liquidacion comision', new_liquidacion_comision_path %>

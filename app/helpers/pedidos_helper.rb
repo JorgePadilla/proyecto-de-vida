@@ -4,7 +4,7 @@ module PedidosHelper
       return "Enero"
     end
     if mes_dia == 2
-      return "Febreo"
+      return "Febrero"
     end
     if mes_dia == 3
       return "Marzo"

@@ -1,0 +1,11 @@
+  <tr id ="pr15" style="display:none">
+    <td><%= @pago_cuotum.fecha %></td>
+    <td><%= @pago_cuotum.numero_deposito %></td>
+    <td><%= @pago_cuotum.monto %></td>
+    <td><%= @pago_cuotum.revisado %></td>
+    <td><%= link_to 'Show', pago_cuotum %></td>
+		<% if soyAdministrador || soyAsistente %>
+	    <td><%= link_to 'Edit', edit_pago_cuotum_path(pago_cuotum) %></td>
+  	  <td><%= link_to 'Destroy', pago_cuotum, confirm: 'Are you sure?', method: :delete %></td>
+		<% end %>
+  </tr>

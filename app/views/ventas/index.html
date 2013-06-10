@@ -42,7 +42,11 @@
 <% DirectorComercial.all.each do |director_comercial| %>
   <tr>
     <td><%= director_comercial.nombre %></td>
-    <td><%= director_comercial.gerente_comercial.nombre %></td>
+		<% if director_comercial.gerente_comercial != nil %>
+	    <td><%= director_comercial.gerente_comercial.nombre %></td>
+		<% else %>
+	    <td>Error: no tiene un gerente comercial asignado.</td>
+		<% end %>
     <td><%= director_comercial.comision_credito %></td>
     <td><%= link_to 'Mostrar', director_comercial %></td>
     <td><%= link_to 'Editar', edit_director_comercial_path(director_comercial) %></td>
@@ -74,7 +78,11 @@
 <% Coordinador.all.each do |coordinador| %>
   <tr>
     <td><%= coordinador.nombre %></td>
-    <td><%= coordinador.director_comercial.nombre %></td>
+		<% if coordinador.director_comercial != nil %>
+	    <td><%= coordinador.director_comercial.nombre %></td>
+		<% else %>
+	    <td>Error: mo tiene un director comercial asignado.</td>
+		<% end %>
     <td><%= coordinador.comision_credito %></td>
     <td><%= link_to 'Mostrar', coordinador %></td>
     <td><%= link_to 'Editar', edit_coordinador_path(coordinador) %></td>
@@ -106,7 +114,11 @@
 <% Moderador.all.each do |moderador| %>
   <tr>
     <td><%= moderador.nombre %></td>
-    <td><%= moderador.coordinador.nombre %></td>
+		<% if moderador.coordinador != nil %>
+	    <td><%= moderador.coordinador.nombre %></td>
+		<% else %>
+	    <td>Error: no tiene un coordinador asignado.</td>
+		<% end %>
     <td><%= moderador.comision_credito %></td>
     <td><%= link_to 'Mostrar', moderador %></td>
     <td><%= link_to 'Editar', edit_moderador_path(moderador) %></td>
@@ -143,7 +155,11 @@
   <tr>
     <td><%= asesor.nombre %></td>
     <td><%= asesor.identidad %></td>
-    <td><%= asesor.moderador.nombre %></td>
+		<% if asesor.moderador != nil %>    
+			<td><%= asesor.moderador.nombre %></td>
+		<% else %>
+			<td>Error: no tiene un moderador asignado</td>
+		<% end %>
     <td><%= asesor.comision_credito %></td>
     <td><%= asesor.comision_contado_empresa %></td>
     <td><%= asesor.comision_contado_asesor %></td>

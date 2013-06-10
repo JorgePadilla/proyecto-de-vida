@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Cuota:</b>
+  <%= @pago_cuotum.cuotum_id %>
+</p>
+
+<p>
+  <b>Fecha:</b>
+  <%= @pago_cuotum.fecha %>
+</p>
+
+<p>
+  <b>Numero deposito:</b>
+  <%= @pago_cuotum.numero_deposito %>
+</p>
+
+<p>
+  <b>Monto:</b>
+  <%= @pago_cuotum.monto %>
+</p>
+
+<p>
+  <b>Revisado:</b>
+  <%= @pago_cuotum.revisado %>
+</p>
+
+
+<%= link_to 'Edit', edit_pago_cuotum_path(@pago_cuotum) %> |
+<%= link_to 'Back', pago_cuota_path %>

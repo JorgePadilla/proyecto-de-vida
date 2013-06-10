@@ -19,7 +19,11 @@
   <tr>
     <td><%= entrada_inventario.numero %></td>
     <td><%= entrada_inventario.fecha %></td>
-    <td><%= entrada_inventario.inventario.nombre %></td>
+		<%if entrada_inventario.inventario!=nil%>
+	    <td><%= entrada_inventario.inventario.nombre %></td>
+		<%else%>
+  	  <td>Error: producto no encontrado</td>
+		<%end%>
     <td><%= entrada_inventario.proveedor %></td>
     <td><%= entrada_inventario.cantidad %></td>
     <td><%= entrada_inventario.valor_unitario %></td>

@@ -1,0 +1,358 @@
+<%= form_for(@pedido) do |f| %>
+  <% if @pedido.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pedido.errors.count, "error") %> prohibited this pedido from being saved:</h2>
+
+      <ul>
+      <% @pedido.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<table border="1">
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :numero_pedido %><br/>
+    <%= f.text_field :numero_pedido %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :rvi %><br/>
+    <%= f.text_field :rvi %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :evento %><br/>
+    <%= f.text_field :evento %>
+  </div>
+  </td>
+</tr> 
+
+
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :ciudad %><br/>
+    <%= f.text_field :ciudad %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :fecha_evento %><br/>
+    <%= f.date_select :fecha_evento %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :nombre_cliente %><br/>
+    <%= f.text_field :nombre_cliente %>
+  </div>
+  </td>
+
+</tr>
+
+
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :identidad_cliente %><br/>
+    <%= f.text_field :identidad_cliente %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :telefono_cliente %><br/>
+    <%= f.text_field :telefono_cliente %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :celular_cliente %><br/>
+    <%= f.text_field :celular_cliente %>
+  </div>
+  </td>
+</tr>
+
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :correo_electronico %><br/>
+    <%= f.text_field :correo_electronico %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :direccion_cliente %><br/>
+    <%= f.text_field :direccion_cliente %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :ciudad_cliente %><br/>
+    <%= f.text_field :ciudad_cliente %>
+  </div>
+  </td>
+</tr>
+
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :departamento_cliente %><br/>
+    <%= f.text_field :departamento_cliente %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :trabajo_cliente %><br/>
+    <%= f.text_field :trabajo_cliente %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :cargo_cliente %><br/>
+    <%= f.text_field :cargo_cliente %>
+  </div>
+  </td>
+</tr>
+
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :telefono_trabajo %><br/>
+    <%= f.text_field :telefono_trabajo %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :inicio_hora_contacto %><br/>
+    <%= f.time_select :inicio_hora_contacto %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :fin_hora_contacto %><br/>
+    <%= f.time_select :fin_hora_contacto %>
+  </div>
+  </td>
+</tr>
+
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :conyugue %><br/>
+    <%= f.text_field :conyugue %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :telefono_conyugue %><br/>
+    <%= f.text_field :telefono_conyugue %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :referencia %><br/>
+    <%= f.text_field :referencia %>
+  </div>
+  </td>
+</tr>
+
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :telefono_referencia %><br/>
+    <%= f.text_field :telefono_referencia %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :referencia2 %><br/>
+    <%= f.text_field :referencia2 %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :telefono_referencia2 %><br/>
+    <%= f.text_field :telefono_referencia2 %>
+  </div>
+  </td>
+</tr>
+
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :alumno %><br/>
+    <%= f.text_field :alumno %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :grado %><br/>
+    <%= f.text_field :grado %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :jornada %><br/>
+    <%= f.text_field :jornada %>
+  </div>
+  </td>
+</tr>
+
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :valor_credito %><br/>
+    <%= f.text_field :valor_credito, :min=>0 %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :numero_cuotas %><br/>
+    <%= f.number_field :numero_cuotas, :min=>0 %>
+  </div>
+  </td>
+</tr>
+
+<tr>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :descuento %><br/>
+    <%= f.text_field :descuento, :min=>0 %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :mora %><br/>
+    <%= f.text_field :mora, :min=>0 %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :tipo_pago %><br/>
+    <%= f.select :tipo_pago, ["Credito", "Contado asesor", "Contado empresa"] %>
+  </div>
+  </td>
+</tr>
+
+<tr>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :fecha_inicio_pago %><br/>
+    <%= f.date_select :fecha_inicio_pago %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :fecha_ingreso %><br/>
+    <%= f.date_select :fecha_ingreso %>
+  </div>
+  </td>
+</tr>
+
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :asesor_id %><br/>
+    <%= f.collection_select :asesor_id, Asesor.all, :id, :nombre %>
+  </div>
+  </td>
+
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :num_dias_descuento %><br/>
+    <%= f.number_field :num_dias_descuento, :min=>0 %>
+  </div>
+  </td>
+
+  <td>
+    <div id="campopedido" class="field">
+      <%= f.label "Número de días para Mora" %><br/>
+      <%= f.number_field :dias_mora, :min=>0 %>
+    </div>
+  </td>
+</tr>
+
+<tr >
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :estado_pedido %><br/>
+    <%= f.select :estado_pedido, ["Pendiente", "Devolucion", "Perdido", "Contado","Fin de Credito","Recoger Mercancia","Pendiente de Validar","Devolucion Bodega","Ilocalizable","Prejuridico","Juridico","Nomina"] %>
+  </div>
+  </td>
+
+  <td height="50">
+    <div id="campopedido" class="field" >
+      <%= f.label "Observaciones" %><br/>
+      <%= f.text_area :observaciones, :size => "40x10" %>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :fecha_deposito_abono_inicial %><br/>
+    <%= f.date_select :fecha_deposito_abono_inicial %>
+  </div>
+  </td>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :numero_deposito_abono_inicial %><br/>
+    <%= f.text_field :numero_deposito_abono_inicial %>
+  </div>
+  </td>
+  <td>
+  <div id="campopedido" class="field">
+    <%= f.label :abono_inicial %><br/>
+    <%= f.text_field :abono_inicial, :min=>0 %>
+  </div>
+  </td>
+</tr>
+<% if soyAdministrador || soyAsistente %>
+<tr>
+  <td>
+  <div class="field">
+    <%= f.label :revisado_abono_inicial %><br />
+    <%= f.check_box :revisado_abono_inicial %>
+  </div>
+  </td>
+</tr>
+<% end %>
+<tr>
+  <td>
+  <div id="campopedido" class="actions">
+    <%= f.submit %>
+  </div>
+  </td>
+</tr>
+</table>
+<% end %>

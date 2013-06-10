@@ -1,5 +1,9 @@
 ProyectoVida::Application.routes.draw do
 
+  resources :pago_cuota
+
+  resources :liquidacion_comisions
+
   resources :nota_devolucions
 
   resources :nota_entregas
@@ -61,6 +65,18 @@ ProyectoVida::Application.routes.draw do
   post "buscar_cuotas" => "repartir#buscar_cuotas", :as => "buscar_cuotas"
 
   post "buscar_cuotas_index" => "cuota#buscar_cuotas_index", :as => "buscar_cuotas_index"
+
+	#Liquidaciones
+  post "buscar_liquidacion_asesor" => "liquidacion_comisions#buscar_liquidacion_asesor", :as => "buscar_liquidacion_asesor"
+  post "buscar_liquidacion_moderador" => "liquidacion_comisions#buscar_liquidacion_moderador", :as => "buscar_liquidacion_moderador"
+
+  get "liquidacion_moderador" => "liquidacion_comisions#liquidacion_moderador", :as => "liquidacion_moderador"
+
+  get "liquidacion_coordinador" => "liquidacion_comisions#liquidacion_coordinador", :as => "liquidacion_coordinador"
+
+  get "liquidacion_director_comercial" => "liquidacion_comisions#liquidacion_director_comercial", :as => "liquidacion_director_comercial"
+
+  get "liquidacion_gerente_comercial" => "liquidacion_comisions#liquidacion_gerente_comercial", :as => "liquidacion_gerente_comercial"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
