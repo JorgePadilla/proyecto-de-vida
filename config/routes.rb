@@ -78,6 +78,10 @@ ProyectoVida::Application.routes.draw do
 
   get "liquidacion_gerente_comercial" => "liquidacion_comisions#liquidacion_gerente_comercial", :as => "liquidacion_gerente_comercial"
 
+  #match 'cuotum/:id/marcar' => 'Cuotum#marcar', :as => :marcar
+
+  get "marcar" => "cuota#marcar", :as => "marcar"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -64,8 +64,20 @@
   <tr>
     <td>
       <p>
-        <b>Fecha Cuota:</b>
-	<%= @cuotum.fecha %>
+        <b>Fecha limite de pago:</b>
+				<%= @cuotum.getFechaLimitePago %>
+      </p>
+    </td>
+
+
+    <td>
+      <p>
+        <b>Fecha pagado:</b>
+					<% if @cuotum.estado!="Pagado" %>
+						Pago pendiente
+					<% else %>
+						<%= @cuotum.fecha %>
+					<% end %>
       </p>
     </td>
     
@@ -108,7 +120,11 @@
     <td>
       <p>
 	<b>Mora</b>
-	<%= @cuotum.mora %>
+		<% if @cuotum.estado != "Pagado" %>
+			<%= getMora @cuotum.getFechaLimitePago, Date.today, @cuotum.pedido.mora%>
+		<% else %>
+			<%= getMora @cuotum.getFechaLimitePago, @cuotum.fecha, @cuotum.pedido.mora%>
+		<% end %>
       </p>
     </td>
     <td>
@@ -239,5 +255,38 @@
 	  <%= f.submit %>
 	</div>
 <% end %>
+<br/>
+<br/>
+<h1>Cuotas</h1>
+
+<br/>
+
+<table>
+  <tr>
+    <th>Numero</th>
+    <th>Estado</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% Cuotum.where(:pedido_id=>@cuotum.pedido.id).each do |cuotum| %>
+  <tr>
+    <td><%= cuotum.num_cuota %></td>
+    <td><%= cuotum.estado %></td>
+    <td><%= link_to 'Mostrar', cuotum %></td>
+    <%if soyCobranza || soyAdministrador%>
+    <td><%= link_to 'Editar', edit_cuotum_path(cuotum) %></td>
+    <%end%>
+    <%if soyAdministrador%>
+		<!--
+    <td><%= link_to 'Eliminar', cuotum, confirm: 'Esta seguro?', method: :delete %></td>
+		-->
+    <%end%>
+  </tr>
+<% end %>
+</table>
 
 <%= link_to 'Back', cuota_path %>
+|
+<%= link_to 'Marcar', :controller => "cuota", :action => "index", :id_marcado => @cuotum.id %>

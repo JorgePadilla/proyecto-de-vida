@@ -17,7 +17,7 @@
   <td>
     <div class="field">
     <%= f.label :fecha_de_cuota %><br />
-    <%= @cuotum.pedido.fecha_inicio_pago.to_time.advance(:months => @cuotum.num_cuota).to_date %>
+    <%= @cuotum.getFechaLimitePago %>
     </div>
   </td>
   <td>
@@ -66,6 +66,7 @@
 -->
 </tr> 
 
+<!--
 <tr>
   <td>
     <div class="field">
@@ -88,6 +89,7 @@
     </div>
   </td>
 </tr>
+-->
 
 <tr>
   <td>

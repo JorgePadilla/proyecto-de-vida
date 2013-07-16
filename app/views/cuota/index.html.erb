@@ -243,6 +243,7 @@
 <table>
   <tr>
     <th>Nombre de cliente</th>
+		<th>Evento</th>
     <th>Número de Cuota</th>
     <th>Número Pedido</th>
     <th>RVI</th>
@@ -261,7 +262,12 @@
 <% if soyAsistente || soyAdministrador %>
 <% @cuota.each do |cuotum| %>
   <tr>
-    <td><%= cuotum.pedido.nombre_cliente %></td>
+    <td>
+		<% if $cuota_marcada == cuotum.id %>
+			<%= "****************" %>
+		<% end %>
+<%= cuotum.pedido.nombre_cliente %></td>
+		<td><%= cuotum.pedido.evento %></td>
     <td><%= cuotum.num_cuota %></td>
     <td><%= cuotum.pedido.numero_pedido %></td>
     <td><%= cuotum.pedido.rvi %></td>
@@ -291,19 +297,38 @@
 <% end %>
 <% end %>
 
+
 <% if soyCobranza %>
 <% @cuota.each do |cuotum| %>
 <% if cuotum.usuario_id == current_user.id %>
   <tr>
-    <td><%= cuotum.fecha %></td>
+    <td>
+		<% if $cuota_marcada == cuotum.id %>
+			<%= "****************" %>
+		<% end %>
+<%= cuotum.pedido.nombre_cliente %></td>
+		<td><%= cuotum.pedido.evento %></td>
     <td><%= cuotum.num_cuota %></td>
     <td><%= cuotum.pedido.numero_pedido %></td>
     <td><%= cuotum.pedido.rvi %></td>
     <td><%= cuotum.estado %></td>
+    <td><%= cuotum.pedido.valor_credito %></td>		
+    <td><%= getValorCuota cuotum.pedido.id %></td>
+    <td>
+		<% if cuotum.revisado %>
+			<%= "si" %>
+		<% else %>
+			<%= "no" %>
+		<% end %>
+		</td>
+    <td><%= cuotum.observaciones %></td>
+    <td><%= cuotum.pedido.observaciones %></td>
     <td><%= link_to 'Mostrar', cuotum %></td>
     <td><%= link_to 'Editar', edit_cuotum_path(cuotum) %></td>
   </tr>
 <% end %>
 <% end %>
 <% end %>
+
+
 </table>

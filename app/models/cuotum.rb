@@ -3,4 +3,8 @@ class Cuotum < ActiveRecord::Base
   belongs_to :pedido
   belongs_to :usuario
 	has_many :pago_cuota
+
+	def getFechaLimitePago
+		return pedido.fecha_inicio_pago.to_time.advance(:months => num_cuota, :days => pedido.dias_mora).to_date
+	end
 end

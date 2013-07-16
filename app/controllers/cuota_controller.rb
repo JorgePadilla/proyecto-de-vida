@@ -8,6 +8,11 @@ class CuotaController < ApplicationController
   # GET /cuota
   # GET /cuota.json
   def index
+
+		if params[:id_marcado] != nil
+			$cuota_marcada = params[:id_marcado].to_i
+		end
+
     if soyAsistente
       @cuota=[]
       Pedido.all.each do |p|
@@ -187,5 +192,26 @@ class CuotaController < ApplicationController
     render :index
 
   end
+
+	def marcar
+		$cuota_marcada = 35
+
+    if soyAsistente
+      @cuota=[]
+      Pedido.all.each do |p|
+        c=getPrimeraCuotaPendiente p.id
+        if c!=nil
+          @cuota.push(c)
+        end
+      end
+    else
+      @cuota = Cuotum.all
+    end
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @cuota }
+    end
+	end
 
 end

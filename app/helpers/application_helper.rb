@@ -208,4 +208,21 @@ module ApplicationHelper
 		end
 		return res
 	end
+
+  def getMora fecha_maxima_pago, fecha_cuota_pagada, pedido_mora
+		cant_mora = 0.0
+
+	  fecha_iteradora=fecha_maxima_pago
+
+		while true
+			if fecha_cuota_pagada>fecha_iteradora
+				cant_mora+=1.0
+				fecha_iteradora=fecha_iteradora>>1
+			else
+				break
+			end
+		end
+
+    return cant_mora*pedido_mora
+  end
 end
