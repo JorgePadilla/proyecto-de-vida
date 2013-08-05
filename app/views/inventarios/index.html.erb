@@ -13,7 +13,11 @@
 
 <% @inventarios.each do |inventario| %>
   <tr>
-    <td><%= inventario.producto.nombre %></td>
+		<%if inventario.producto!=nil%>
+	    <td><%= inventario.producto.nombre %></td>
+		<%else%>
+	    <td>Error: No existe el producto en el inventario.</td>
+		<%end%>
     <td><%= inventario.cantidad %></td>
     <td><%= link_to 'Mostrar', inventario %></td>
     <td><%= link_to 'Editar', edit_inventario_path(inventario) %></td>

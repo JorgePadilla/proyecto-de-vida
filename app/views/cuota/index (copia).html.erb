@@ -260,7 +260,7 @@
   </tr>
 
 <% if soyAsistente || soyAdministrador %>
-<% @cuota.take(50).each do |cuotum| %>
+<% @cuota.each do |cuotum| %>
   <tr>
     <td>
 		<% if $cuota_marcada == cuotum.id %>
@@ -299,7 +299,7 @@
 
 
 <% if soyCobranza %>
-<% @cuota.take(50).each do |cuotum| %>
+<% @cuota.each do |cuotum| %>
 <% if cuotum.usuario_id == current_user.id %>
   <tr>
     <td>

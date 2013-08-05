@@ -213,8 +213,12 @@
 
 </table>
 
+
 <% $saldo_pendiente_cuota = getValorCuota(@cuotum.pedido.id).to_i - total_pagos_cuota %>
 <h4 id="saldo_pendiente_cuota">Saldo pendiente en esta cuota: <%= $saldo_pendiente_cuota %></h4>
+
+<% $saldo_pendiente_total = getSaldoPedido @cuotum.pedido %>
+<h4 id="saldo_pendiente_total">Saldo pendiente total: <%= $saldo_pendiente_total %></h4>
 
 <br/>
 

@@ -225,4 +225,14 @@ module ApplicationHelper
 
     return cant_mora*pedido_mora
   end
+
+	def getSaldoPedido pedido
+		total_pagos_cuota=0
+		pedido.cuota.each do |cuotum|
+			cuotum.pago_cuota.each do |pago_cuotum|
+				total_pagos_cuota+=pago_cuotum.monto
+			end
+		end
+		return pedido.valor_credito-total_pagos_cuota
+	end
 end

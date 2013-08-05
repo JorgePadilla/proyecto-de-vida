@@ -93,8 +93,8 @@ class LiquidacionComisionsController < ApplicationController
     end
   end
 
-  def getPedidosSinLiquidarFromAsesor asesor_id
-    str = "asesor_id = " + asesor_id + " AND liquidado_asesor != 1"
+  def getPedidosSinLiquidarFromAsesor asesor_id, str_fecha
+    str = "asesor_id = " + asesor_id + " AND liquidado_asesor != 1" + str_fecha
     pedidos = Pedido.where(str)
 		return pedidos
 	end
@@ -115,7 +115,29 @@ class LiquidacionComisionsController < ApplicationController
 	def buscar_liquidacion_asesor
 		asesor_id=params[:dsfg][:asesor_id]
 
-    @pedidos = getPedidosSinLiquidarFromAsesor asesor_id
+    anio_inicio=params[:anio_inicio]
+    mes_inicio=params[:mes_inicio]
+    if mes_inicio.size==1
+      mes_inicio="0"+mes_inicio
+    end
+    dia_inicio=params[:dia_inicio]
+    if dia_inicio.size==1
+      dia_inicio="0"+dia_inicio
+    end
+
+    anio_final=params[:anio_final]
+    mes_final=params[:mes_final]
+    if mes_final.size==1
+      mes_final="0"+mes_final
+    end
+    dia_final=params[:dia_final]
+    if dia_final.size==1
+      dia_final="0"+dia_final
+    end
+
+    str_fecha=" and fecha_ingreso BETWEEN '" + anio_inicio + "-" + mes_inicio + "-" + dia_inicio + "' and '" + anio_final + "-" + mes_final + "-" + dia_final + "'"
+
+    @pedidos = getPedidosSinLiquidarFromAsesor asesor_id, str_fecha
 
 		@monto=0
 		@pedidos.each do |pedido|

@@ -3,5 +3,8 @@ $('#pago_cuotum_tabla').append(vista);
 $('#pago_cuotum_tabla #pr15').delay(500).fadeIn();
 
 <%= $saldo_pendiente_cuota-=@pago_cuotum.monto %>
-$('#saldo_pendiente_cuota').text("Saldo pendiente en esta cuotaa: "+<%= $saldo_pendiente_cuota %>);
+$('#saldo_pendiente_cuota').text("Saldo pendiente en esta cuota: "+<%= $saldo_pendiente_cuota %>);
+
+<%= $saldo_pendiente_total-=@pago_cuotum.monto %>
+$('#saldo_pendiente_total').text("Saldo pendiente en esta cuota: "+<%= $saldo_pendiente_total %>);
 

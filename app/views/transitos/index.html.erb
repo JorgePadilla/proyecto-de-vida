@@ -44,11 +44,7 @@
 
 <% @transitos.each do |transito| %>
   <tr>
-		<% if transito.inventario != nil %>
-	    <td><%= transito.inventario.nombre %></td>
-		<% else %>
-			<td>Error! No existe el producto en el inventario</td>
-		<% end %>
+	  <td><%= transito.nombre %></td>
     <td><%= link_to transito.asesor.nombre, transito.asesor %></td>
     <td><%= transito.cantidad %></td>
     <td><%= link_to 'Mostrar', transito %></td>
