@@ -23,15 +23,91 @@
   </div>
 
   <div class="field">
-    <%= f.label :monto %><br />
-    <%= @monto %>
-  </div>
-<!--
-  <div class="field">
-    <%= f.label :monto %><br />
-    <%= f.number_field :monto %>
+    <%= f.label :cantidad %><br />
+		<%= @pedidos_credito.count %>
   </div>
 
+  <div class="field">
+    <%= f.label :rol %><br />
+		<%= @liquidacion_comision.rol %>
+  </div>
+
+----------------------------------------------------------
+
+  <div class="field">
+    <%= f.label :monto_credito %><br />
+    <%= @monto_credito %>
+  </div>
+
+  <div class="field">
+    <%= f.label :monto_contado_asesor %><br />
+    <%= @monto_contado_asesor %>
+  </div>
+
+  <div class="field">
+    <%= f.label :monto_contado_empresa %><br />
+    <%= @monto_contado_empresa %>
+  </div>
+
+----------------------------------------------------------
+
+<%if @liquidacion_comision.rol=="asesor"%>
+  <div class="field">
+    <%= f.label :comision_credito %><br />
+    <%= Asesor.find_by_id(@asesor_id).comision_credito %>%
+  </div>
+
+  <div class="field">
+    <%= f.label :comision_contado_asesor %><br />
+    <%= Asesor.find_by_id(@asesor_id).comision_contado_asesor %>%
+  </div>
+
+  <div class="field">
+    <%= f.label :comision_contado_empresa %><br />
+    <%= Asesor.find_by_id(@asesor_id).comision_contado_empresa %>%
+  </div>
+
+----------------------------------------------------------
+
+  <div class="field">
+    <%= f.label :comision_credito %><br />
+    <% @comision_credito = @monto_credito/100*Asesor.find_by_id(@asesor_id).comision_credito %>
+    <%= @comision_credito %>
+  </div>
+
+  <div class="field">
+    <%= f.label :comision_contado_asesor %><br />
+		<% @comision_contado_asesor = @monto_contado_asesor/100*Asesor.find_by_id(@asesor_id).comision_credito %>
+    <%= @comision_contado_asesor %>
+  </div>
+
+  <div class="field">
+    <%= f.label :comision_contado_empresa %><br />
+		<% @comision_contado_empresa = @monto_contado_empresa/100*Asesor.find_by_id(@asesor_id).comision_credito %>
+    <%= @comision_contado_empresa %>
+  </div>
+
+----------------------------------------------------------
+
+  <div class="field">
+    <%= f.label :comision_total %><br />
+		<% @comision_total = @comision_credito + @comision_contado_empresa + @comision_contado_empresa %>
+    <%= @comision_total %>
+  </div>
+<%end%>
+
+<%if @liquidacion_comision.rol=="coordinador"%>
+  <div class="field">
+    <%= f.label :comision_credito %><br />
+    <%= Coordinador.find_by_id(@asesor_id).comision_credito %>
+  </div>
+
+  <div class="field">
+    <%= f.label :monto_total %><br />
+    <%= @monto*Coordinador.find_by_id(@asesor_id).comision_credito %>
+  </div>
+<%end%>
+<!--
   <div class="field">
     <%= f.label :fecha_inicio %><br />
     <%= f.date_select :fecha_inicio %>
@@ -41,6 +117,17 @@
     <%= f.date_select :fecha_final %>
   </div>
 -->
+
+<!-- parametros -->
+	<% $monto = @comision_total %>
+	<% $empleado_id = @asesor_id %>
+	<% $rol = @liquidacion_comision.rol %>
+	<% $fecha_inicio = @fecha_inicio %>
+	<% $fecha_final = @fecha_final %>
+	<% $pedidos_credito = @pedidos_credito %>
+	<% $pedidos_contado_asesor = @pedidos_contado_asesor %>
+	<% $pedidos_contado_empresa = @pedidos_contado_empresa %>
+
   <div class="actions">
     <%= f.submit 'Ingresar liquidacion' %>
   </div>

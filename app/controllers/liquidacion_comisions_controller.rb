@@ -43,15 +43,26 @@ class LiquidacionComisionsController < ApplicationController
   # POST /liquidacion_comisions.json
   def create
     @liquidacion_comision = LiquidacionComision.new(params[:liquidacion_comision])
+		@liquidacion_comision.empleado_id=$empleado_id
+		@liquidacion_comision.rol=$rol
+		@liquidacion_comision.monto=$monto
+		@liquidacion_comision.fecha_inicio=$fecha_inicio
+		@liquidacion_comision.fecha_final=$fecha_final
 
 		#marcar pedidos como liquidados
-    str = "asesor_id = " + @asesor_id + " AND liquidado_asesor != 1"
-    @pedidos = Pedido.where(str)
-		@monto=0
-		@pedidos.each do |pedido|
-			if pedido.valor_credito!=nil
-				@monto+=pedido.valor_credito
-			end
+    @pedidos_credito = $pedidos_credito
+		@pedidos_credito.each do |pedido|
+			#pedido.liquidado_asesor=true
+		end
+
+    @pedidos_contado_asesor = $pedidos_contado_asesor
+		@pedidos_contado_asesor.each do |pedido|
+			#pedido.liquidado_asesor=true
+		end
+
+    @pedidos_contado_empresa = $pedidos_contado_empresa
+		@pedidos_contado_empresa.each do |pedido|
+			#pedido.liquidado_asesor=true
 		end
 
     respond_to do |format|
@@ -94,23 +105,35 @@ class LiquidacionComisionsController < ApplicationController
   end
 
   def getPedidosSinLiquidarFromAsesor asesor_id, str_fecha
-    str = "asesor_id = " + asesor_id + " AND liquidado_asesor != 1" + str_fecha
+    str = "asesor_id = " + asesor_id.to_s + " AND liquidado_asesor != 1" + str_fecha
     pedidos = Pedido.where(str)
 		return pedidos
 	end
 
-  def getPedidosSinLiquidarFromModerador moderador_id
-		moderador = Moderador.find_by_id(moderador_id)
-		pedidos=[]
-		moderador.asesors.each do |asesor|
-  	  str = "asesor_id = " + asesor.id.to_s() + " AND liquidado_moderador != 1"
-			Pedido.where(str).each do |p_temp|
-		    pedidos.push(p_temp)
-			end
-		end
-
+  def getPedidosSinLiquidarFromModerador asesor_id, str_fecha
+    str = "asesor_id = " + asesor_id.to_s + " AND liquidado_moderador != 1" + str_fecha
+    pedidos = Pedido.where(str)
 		return pedidos
 	end
+
+  def getPedidosSinLiquidarFromCoordinador asesor_id, str_fecha
+    str = "asesor_id = " + asesor_id.to_s + " AND liquidado_coordinador != 1" + str_fecha
+    pedidos = Pedido.where(str)
+		return pedidos
+	end
+
+  def getPedidosSinLiquidarFromDirectorComercial asesor_id, str_fecha
+    str = "asesor_id = " + asesor_id.to_s + " AND liquidado_director_comercial != 1" + str_fecha
+    pedidos = Pedido.where(str)
+		return pedidos
+	end
+
+  def getPedidosSinLiquidarFromGerenteComercial asesor_id, str_fecha
+    str = "asesor_id = " + asesor_id.to_s + " AND liquidado_gerente_comercial != 1" + str_fecha
+    pedidos = Pedido.where(str)
+		return pedidos
+	end
+
 
 	def buscar_liquidacion_asesor
 		asesor_id=params[:dsfg][:asesor_id]
@@ -137,14 +160,42 @@ class LiquidacionComisionsController < ApplicationController
 
     str_fecha=" and fecha_ingreso BETWEEN '" + anio_inicio + "-" + mes_inicio + "-" + dia_inicio + "' and '" + anio_final + "-" + mes_final + "-" + dia_final + "'"
 
-    @pedidos = getPedidosSinLiquidarFromAsesor asesor_id, str_fecha
+    @pedidos_credito=[]
+    @pedidos_contado_asesor=[]
+    @pedidos_contado_empresa=[]
 
-		@monto=0
-		@pedidos.each do |pedido|
-			if pedido.valor_credito!=nil
-				@monto+=pedido.valor_credito
+		pedidos_temp = getPedidosSinLiquidarFromAsesor asesor_id, str_fecha
+
+		@monto_credito=0
+		@monto_contado_asesor=0
+		@monto_contado_empresa=0
+		pedidos_temp.each do |pedido|
+			if pedido.cuota.first != nil
+				if pedido.cuota.first.estado=="Pagado" && pedido.tipo_pago=="Credito"
+					@pedidos_credito.push(pedido)
+					if pedido.valor_credito!=nil
+						@monto_credito+=pedido.valor_credito
+					end
+				end
+
+				if pedido.cuota.first.estado=="Pagado" && pedido.tipo_pago=="Contado asesor"
+					@pedidos_credito.push(pedido)
+					if pedido.valor_credito!=nil
+						@monto_contado_asesor+=pedido.valor_credito
+					end
+				end
+
+				if pedido.cuota.first.estado=="Pagado" && pedido.tipo_pago=="Contado empresa"
+					@pedidos_credito.push(pedido)
+					if pedido.valor_credito!=nil
+						@monto_contado_empresa+=pedido.valor_credito
+					end
+				end
 			end
 		end
+
+		@fecha_inicio = Date.new(anio_inicio.to_i,mes_inicio.to_i,dia_inicio.to_i)
+		@fecha_final = Date.new(anio_final.to_i,mes_final.to_i,dia_final.to_i)
 
     @liquidacion_comision = LiquidacionComision.new
 		@asesor_id=asesor_id
@@ -153,34 +204,222 @@ class LiquidacionComisionsController < ApplicationController
 
 		@empleado=Asesor.find_by_id(asesor_id).nombre
 
+		render :new
+	end
+
+	def buscar_liquidacion_moderador
+		moderador_id=params[:dsfg][:moderador_id]
+
+    anio_inicio=params[:anio_inicio]
+    mes_inicio=params[:mes_inicio]
+    if mes_inicio.size==1
+      mes_inicio="0"+mes_inicio
+    end
+    dia_inicio=params[:dia_inicio]
+    if dia_inicio.size==1
+      dia_inicio="0"+dia_inicio
+    end
+
+    anio_final=params[:anio_final]
+    mes_final=params[:mes_final]
+    if mes_final.size==1
+      mes_final="0"+mes_final
+    end
+    dia_final=params[:dia_final]
+    if dia_final.size==1
+      dia_final="0"+dia_final
+    end
+
+    str_fecha=" and fecha_ingreso BETWEEN '" + anio_inicio + "-" + mes_inicio + "-" + dia_inicio + "' and '" + anio_final + "-" + mes_final + "-" + dia_final + "'"
+
+		@pedidos_credito=[]
+		moderador=Moderador.find_by_id(moderador_id)
+		@monto=0
+		moderador.asesors.each do |asesor|
+		  pedidos_temp = getPedidosSinLiquidarFromModerador asesor.id, str_fecha
+			pedidos_temp.each do |pedido|
+				@pedidos_credito.push(pedido)
+				if pedido.valor_credito!=nil
+					@monto+=pedido.valor_credito
+				end
+			end
+		end
+
+    @liquidacion_comision = LiquidacionComision.new
+		@asesor_id=moderador_id
+		@liquidacion_comision.rol="moderador"
+		@liquidacion_comision.fecha=Date.today
+		@empleado=moderador.nombre
+
+
 		@fecha_inicio=@string_fecha_inicio
 		@fecha_final=@string_fecha_final
 
 		render :new
 	end
 
-	def buscar_liquidacion_moderador
-		asesor_id=params[:dsfg][:asesor_id]
+	def buscar_liquidacion_coordinador
+		coordinador_id=params[:dsfg][:coordinador_id]
 
-    @pedidos = getPedidosSinLiquidarFromModerador asesor_id
+    anio_inicio=params[:anio_inicio]
+    mes_inicio=params[:mes_inicio]
+    if mes_inicio.size==1
+      mes_inicio="0"+mes_inicio
+    end
+    dia_inicio=params[:dia_inicio]
+    if dia_inicio.size==1
+      dia_inicio="0"+dia_inicio
+    end
 
+    anio_final=params[:anio_final]
+    mes_final=params[:mes_final]
+    if mes_final.size==1
+      mes_final="0"+mes_final
+    end
+    dia_final=params[:dia_final]
+    if dia_final.size==1
+      dia_final="0"+dia_final
+    end
+
+    str_fecha=" and fecha_ingreso BETWEEN '" + anio_inicio + "-" + mes_inicio + "-" + dia_inicio + "' and '" + anio_final + "-" + mes_final + "-" + dia_final + "'"
+
+		@pedidos_credito=[]
+		coordinador=Coordinador.find_by_id(coordinador_id)
 		@monto=0
-		@pedidos.each do |pedido|
-			if pedido.valor_credito!=nil
-				@monto+=pedido.valor_credito
+		coordinador.moderadors.each do |moderador|		
+			moderador.asesors.each do |asesor|
+				pedidos_temp = getPedidosSinLiquidarFromCoordinador asesor.id, str_fecha
+				pedidos_temp.each do |pedido|
+					@pedidos_credito.push(pedido)
+					if pedido.valor_credito!=nil
+						@monto+=pedido.valor_credito
+					end
+				end
 			end
 		end
 
     @liquidacion_comision = LiquidacionComision.new
-		@asesor_id=asesor_id
-		@liquidacion_comision.rol="moderador"
+		@asesor_id=coordinador_id
+		@liquidacion_comision.rol="coordinador"
 		@liquidacion_comision.fecha=Date.today
+		@empleado=coordinador.nombre
 
-		@empleado=Moderador.find_by_id(asesor_id).nombre
 
 		@fecha_inicio=@string_fecha_inicio
 		@fecha_final=@string_fecha_final
 
-		render :liquidacion_moderador
+		render :new
+	end
+
+	def buscar_liquidacion_director_comercial
+		director_comercial_id=params[:dsfg][:director_comercial_id]
+
+    anio_inicio=params[:anio_inicio]
+    mes_inicio=params[:mes_inicio]
+    if mes_inicio.size==1
+      mes_inicio="0"+mes_inicio
+    end
+    dia_inicio=params[:dia_inicio]
+    if dia_inicio.size==1
+      dia_inicio="0"+dia_inicio
+    end
+
+    anio_final=params[:anio_final]
+    mes_final=params[:mes_final]
+    if mes_final.size==1
+      mes_final="0"+mes_final
+    end
+    dia_final=params[:dia_final]
+    if dia_final.size==1
+      dia_final="0"+dia_final
+    end
+
+    str_fecha=" and fecha_ingreso BETWEEN '" + anio_inicio + "-" + mes_inicio + "-" + dia_inicio + "' and '" + anio_final + "-" + mes_final + "-" + dia_final + "'"
+
+		@pedidos_credito=[]
+		director_comercial=DirectorComercial.find_by_id(director_comercial_id)
+		@monto=0
+		director_comercial.coordinadors.each do |coordinador|		
+			coordinador.moderadors.each do |moderador|		
+				moderador.asesors.each do |asesor|
+					pedidos_temp = getPedidosSinLiquidarFromDirectorComercial asesor.id, str_fecha
+					pedidos_temp.each do |pedido|
+						@pedidos_credito.push(pedido)
+						if pedido.valor_credito!=nil
+							@monto+=pedido.valor_credito
+						end
+					end
+				end
+			end
+		end
+
+    @liquidacion_comision = LiquidacionComision.new
+		@asesor_id=director_comercial_id
+		@liquidacion_comision.rol="director_comercial"
+		@liquidacion_comision.fecha=Date.today
+		@empleado=director_comercial.nombre
+
+
+		@fecha_inicio=@string_fecha_inicio
+		@fecha_final=@string_fecha_final
+
+		render :new
+	end
+
+	def buscar_liquidacion_gerente_comercial
+		gerente_comercial_id=params[:dsfg][:gerente_comercial_id]
+
+    anio_inicio=params[:anio_inicio]
+    mes_inicio=params[:mes_inicio]
+    if mes_inicio.size==1
+      mes_inicio="0"+mes_inicio
+    end
+    dia_inicio=params[:dia_inicio]
+    if dia_inicio.size==1
+      dia_inicio="0"+dia_inicio
+    end
+
+    anio_final=params[:anio_final]
+    mes_final=params[:mes_final]
+    if mes_final.size==1
+      mes_final="0"+mes_final
+    end
+    dia_final=params[:dia_final]
+    if dia_final.size==1
+      dia_final="0"+dia_final
+    end
+
+    str_fecha=" and fecha_ingreso BETWEEN '" + anio_inicio + "-" + mes_inicio + "-" + dia_inicio + "' and '" + anio_final + "-" + mes_final + "-" + dia_final + "'"
+
+		@pedidos_credito=[]
+		gerente_comercial=GerenteComercial.find_by_id(gerente_comercial_id)
+		@monto=0
+		gerente_comercial.director_comercials.each do |director_comercial|
+			director_comercial.coordinadors.each do |coordinador|
+				coordinador.moderadors.each do |moderador|
+					moderador.asesors.each do |asesor|
+						pedidos_temp = getPedidosSinLiquidarFromGerenteComercial asesor.id, str_fecha
+						pedidos_temp.each do |pedido|
+							@pedidos_credito.push(pedido)
+							if pedido.valor_credito!=nil
+								@monto+=pedido.valor_credito
+							end
+						end
+					end
+				end
+			end
+		end
+
+    @liquidacion_comision = LiquidacionComision.new
+		@asesor_id=gerente_comercial_id
+		@liquidacion_comision.rol="gerente_comercial"
+		@liquidacion_comision.fecha=Date.today
+		@empleado=gerente_comercial.nombre
+
+
+		@fecha_inicio=@string_fecha_inicio
+		@fecha_final=@string_fecha_final
+
+		render :new
 	end
 end

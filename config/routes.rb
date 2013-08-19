@@ -69,6 +69,9 @@ ProyectoVida::Application.routes.draw do
 	#Liquidaciones
   post "buscar_liquidacion_asesor" => "liquidacion_comisions#buscar_liquidacion_asesor", :as => "buscar_liquidacion_asesor"
   post "buscar_liquidacion_moderador" => "liquidacion_comisions#buscar_liquidacion_moderador", :as => "buscar_liquidacion_moderador"
+  post "buscar_liquidacion_coordinador" => "liquidacion_comisions#buscar_liquidacion_coordinador", :as => "buscar_liquidacion_coordinador"
+  post "buscar_liquidacion_director_comercial" => "liquidacion_comisions#buscar_liquidacion_director_comercial", :as => "buscar_liquidacion_director_comercial"
+  post "buscar_liquidacion_gerente_comercial" => "liquidacion_comisions#buscar_liquidacion_gerente_comercial", :as => "buscar_liquidacion_gerente_comercial"
 
   get "liquidacion_moderador" => "liquidacion_comisions#liquidacion_moderador", :as => "liquidacion_moderador"
 

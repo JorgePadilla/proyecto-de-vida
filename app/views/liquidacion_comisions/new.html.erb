@@ -183,8 +183,52 @@
     <th></th>
     <th></th>
   </tr>
-<% if @pedidos!=nil %>
-	<% @pedidos.each do |pedido| %>
+<% if @pedidos_credito!=nil %>
+	<% @pedidos_credito.each do |pedido| %>
+		<tr>
+		  <td><%= link_to pedido.asesor.nombre,pedido.asesor %></td>
+		  <td><%= pedido.fecha_ingreso %></td>
+		  <td><%= pedido.evento %></td>
+		  <td><%= pedido.ciudad %></td>
+		  <td><%= pedido.fecha_evento %></td>
+		  <td><%= pedido.nombre_cliente %></td>
+		  <td><%= pedido.valor_credito %></td>
+		  <td><%= pedido.abono_inicial %></td>
+		  <td><%= pedido.numero_cuotas %></td>
+		  <td><%= pedido.fecha_inicio_pago %></td>
+		  <td><%= link_to 'Mostrar', pedido %></td>
+		  <%if soyAdministrador %>
+		  <td><%= link_to 'Editar', edit_pedido_path(pedido) %></td>
+		  <td><%= link_to 'Eliminar', pedido, confirm: 'Esta seguro?', method: :delete %></td>
+		  <%end%>
+		</tr>
+	<% end %>
+<% end %>
+
+<% if @pedidos_contado_asesor!=nil %>
+	<% @pedidos_contado_asesor.each do |pedido| %>
+		<tr>
+		  <td><%= link_to pedido.asesor.nombre,pedido.asesor %></td>
+		  <td><%= pedido.fecha_ingreso %></td>
+		  <td><%= pedido.evento %></td>
+		  <td><%= pedido.ciudad %></td>
+		  <td><%= pedido.fecha_evento %></td>
+		  <td><%= pedido.nombre_cliente %></td>
+		  <td><%= pedido.valor_credito %></td>
+		  <td><%= pedido.abono_inicial %></td>
+		  <td><%= pedido.numero_cuotas %></td>
+		  <td><%= pedido.fecha_inicio_pago %></td>
+		  <td><%= link_to 'Mostrar', pedido %></td>
+		  <%if soyAdministrador %>
+		  <td><%= link_to 'Editar', edit_pedido_path(pedido) %></td>
+		  <td><%= link_to 'Eliminar', pedido, confirm: 'Esta seguro?', method: :delete %></td>
+		  <%end%>
+		</tr>
+	<% end %>
+<% end %>
+
+<% if @pedidos_contado_empresa!=nil %>
+	<% @pedidos_contado_empresa.each do |pedido| %>
 		<tr>
 		  <td><%= link_to pedido.asesor.nombre,pedido.asesor %></td>
 		  <td><%= pedido.fecha_ingreso %></td>
