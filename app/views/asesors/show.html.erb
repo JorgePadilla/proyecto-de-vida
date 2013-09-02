@@ -37,7 +37,7 @@
 </p>
 
 </br>
-<h2>Ventas y comisiones</h2>
+<h2>Ventas y liquidaciones</h2>
 
 
 <%ventas_credito = getTotalVentasCredito @asesor.id%>
@@ -78,8 +78,6 @@
 </br>
 <table>
   <tr>
-    <th>Empleado</th>
-    <th>Rol</th>
     <th>Fecha</th>
     <th>Monto</th>
     <th>Fecha inicio</th>
@@ -93,15 +91,15 @@
 
 <% @liquidacion_comisions.each do |liquidacion_comision| %>
   <tr>
-    <td><%= liquidacion_comision.empleado_id %></td>
-    <td><%= liquidacion_comision.rol %></td>
     <td><%= liquidacion_comision.fecha %></td>
     <td><%= liquidacion_comision.monto %></td>
     <td><%= liquidacion_comision.fecha_inicio %></td>
     <td><%= liquidacion_comision.fecha_final %></td>
     <td><%= link_to 'Show', liquidacion_comision %></td>
+<!--
     <td><%= link_to 'Edit', edit_liquidacion_comision_path(liquidacion_comision) %></td>
     <td><%= link_to 'Destroy', liquidacion_comision, confirm: 'Are you sure?', method: :delete %></td>
+-->
   </tr>
 <% end %>
 </table>

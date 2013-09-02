@@ -2,7 +2,9 @@
 
 <p>
   <b>Empleado:</b>
-  <%= @liquidacion_comision.empleado_id %>
+	<%if @liquidacion_comision.rol=="asesor"%>
+	  <%= Asesor.find_by_id(@liquidacion_comision.empleado_id).nombre %>
+	<%end%>
 </p>
 
 <p>
@@ -11,13 +13,34 @@
 </p>
 
 <p>
-  <b>Fecha:</b>
+  <b>Fecha de liquidacion:</b>
   <%= @liquidacion_comision.fecha %>
 </p>
 
+<%if @liquidacion_comision.rol=="asesor"%>
 <p>
-  <b>Monto:</b>
-  <%= @liquidacion_comision.monto %>
+  <b>Comision credito:</b>
+	  <%= Asesor.find_by_id(@liquidacion_comision.empleado_id).comision_credito %>%
+</p>
+<%end%>
+
+<%if @liquidacion_comision.rol=="asesor"%>
+<p>
+  <b>Comision contado empresa:</b>
+	  <%= Asesor.find_by_id(@liquidacion_comision.empleado_id).comision_contado_empresa %>%
+</p>
+<%end%>
+
+<%if @liquidacion_comision.rol=="asesor"%>
+<p>
+  <b>Comision contado asesor:</b>
+	  <%= Asesor.find_by_id(@liquidacion_comision.empleado_id).comision_contado_asesor %>%
+</p>
+<%end%>
+
+<p>
+  <b>Monto de liquidacion:</b>
+  <b><%= @liquidacion_comision.monto %>.00</b>
 </p>
 
 <p>
@@ -26,9 +49,97 @@
 </p>
 
 <p>
-  <b>Fecha inicio:</b>
+  <b>Fecha final:</b>
   <%= @liquidacion_comision.fecha_final %>
 </p>
 
-<%= link_to 'Edit', edit_liquidacion_comision_path(@liquidacion_comision) %> |
-<%= link_to 'Back', liquidacion_comisions_path %>
+
+<%
+	anio_inicio = @liquidacion_comision.fecha_inicio.year.to_s
+	mes_inicio = @liquidacion_comision.fecha_inicio.month.to_s
+	dia_inicio = @liquidacion_comision.fecha_inicio.day.to_s
+	anio_final = @liquidacion_comision.fecha_final.year.to_s
+	mes_final = @liquidacion_comision.fecha_final.month.to_s
+	dia_final = @liquidacion_comision.fecha_final.day.to_s
+%>
+
+<%
+	if mes_inicio.size==1
+		mes_inicio = "0"+mes_inicio
+	end
+	if dia_inicio.size==1
+		dia_inicio = "0"+dia_inicio
+	end
+
+	if mes_final.size==1
+		mes_final = "0"+mes_final
+	end
+	if dia_final.size==1
+		dia_final = "0"+dia_final
+	end
+%>
+
+<%= str="fecha_ingreso BETWEEN '" + 
+anio_inicio + "-" + 
+mes_inicio + "-" + 
+dia_inicio + "' and '" + 
+anio_final + "-" + 
+mes_final + "-" + 
+dia_final + "'" %>
+
+<% total_ventas=0 %>
+<% total_pedidos=0 %>
+<% @pedidos = Pedido.where(str) %>
+<table>
+  <tr>
+    <th>Asesor</th>
+    <th>Evento</th>
+    <th>Ciudad</th>
+    <th>Fecha evento</th>
+    <th>Nombre cliente</th>
+    <th>Valor credito</th>
+    <th>Abono inicial</th>
+    <th>Numero cuotas</th>
+    <th>Fecha inicio pago</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @pedidos.each do |pedido| %>
+	<%if pedido.liquidado_asesor%>
+		<tr>
+		  <td><%= link_to pedido.asesor.nombre,pedido.asesor %></td>
+		  <td><%= pedido.evento %></td>
+		  <td><%= pedido.ciudad %></td>
+		  <td><%= pedido.fecha_evento %></td>
+		  <td><%= pedido.nombre_cliente %></td>
+		  <td><%= pedido.valor_credito %></td>
+		  <td><%= pedido.abono_inicial %></td>
+		  <td><%= pedido.numero_cuotas %></td>
+		  <td><%= pedido.fecha_inicio_pago %></td>
+		  <td><%= link_to 'Mostrar', pedido %></td>
+
+			<% total_ventas+=pedido.valor_credito %>
+			<% total_pedidos+=1 %>
+
+		</tr>
+	<% end %>
+<% end %>
+</table>
+
+<br/>
+
+<p>
+  <b>Total ventas:</b>
+  <%= total_ventas %>
+</p>
+<p>
+  <b>Cantidad de pedidos:</b>
+  <%= total_pedidos %>
+</p>
+
+<div id="no-print">
+	<%= link_to 'Edit', edit_liquidacion_comision_path(@liquidacion_comision) %> |
+	<%= link_to 'Back', liquidacion_comisions_path %>
+</div>

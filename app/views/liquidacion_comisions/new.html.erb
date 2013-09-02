@@ -30,7 +30,9 @@
 			</select>
 			<!--<%= select( "mes_inicio", params[:mes_inicio],["01","02","03","04","05","06","07","08","09","10","11","12"]) %>-->
 			<select name="mes_inicio">
+<!--
 			  <option value="<%= Time.now.month %>"><%= getMesString Time.now.month %></option>
+-->
 			  <option value="01">Enero</option>
 			  <option value="02">Febrero</option>
 			  <option value="03">Marzo</option>
@@ -46,7 +48,6 @@
 			</select>
 			<!--<%= select( "dia_inicio", params[:dia_inicio],["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"]) %>-->
 			<select name="dia_inicio">
-			  <option value="<%= Time.now.day %>"><%= Time.now.day %></option>
 			  <option value="01" selected="selected">01</option>
 			  <option value="02">02</option>
 			  <option value="03">03</option>
@@ -99,7 +100,9 @@
 			</select>
 			<!--<%= select( "mes_final", params[:mes_inicio],["01","02","03","04","05","06","07","08","09","10","11","12"]) %>-->
 			<select name="mes_final">
+<!--
 			  <option value="<%= Time.now.month %>"><%= getMesString Time.now.month %></option>
+-->
 			  <option value="01">Enero</option>
 			  <option value="02">Febrero</option>
 			  <option value="03">Marzo</option>
@@ -116,8 +119,7 @@
 			<!--<%= select( "dia_final", params[:dia_inicio],["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"])
 %>-->
 			<select name="dia_final">
-			  <option value="<%= Time.now.day %>"><%= Time.now.day %></option>
-			  <option value="01">01</option>
+			  <option value="01" selected="selected">01</option>
 			  <option value="02">02</option>
 			  <option value="03">03</option>
 			  <option value="04">04</option>
@@ -147,7 +149,7 @@
 			  <option value="28">28</option>
 			  <option value="29">29</option>
 			  <option value="30">30</option>
-			  <option value="31" selected="selected">31</option>
+			  <option value="31">31</option>
 			</select>
 		</td>
 	</tr>

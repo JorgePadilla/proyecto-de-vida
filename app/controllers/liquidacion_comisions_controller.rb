@@ -49,20 +49,25 @@ class LiquidacionComisionsController < ApplicationController
 		@liquidacion_comision.fecha_inicio=$fecha_inicio
 		@liquidacion_comision.fecha_final=$fecha_final
 
-		#marcar pedidos como liquidados
-    @pedidos_credito = $pedidos_credito
-		@pedidos_credito.each do |pedido|
-			#pedido.liquidado_asesor=true
-		end
+		if @liquidacion_comision.rol=="asesor"
+			#marcar pedidos como liquidados de asesor
+		  @pedidos_credito = $pedidos_credito
+			@pedidos_credito.each do |pedido|
+				pedido.liquidado_asesor=true
+				pedido.save
+			end
 
-    @pedidos_contado_asesor = $pedidos_contado_asesor
-		@pedidos_contado_asesor.each do |pedido|
-			#pedido.liquidado_asesor=true
-		end
+		  @pedidos_contado_asesor = $pedidos_contado_asesor
+			@pedidos_contado_asesor.each do |pedido|
+				pedido.liquidado_asesor=true
+				pedido.save
+			end
 
-    @pedidos_contado_empresa = $pedidos_contado_empresa
-		@pedidos_contado_empresa.each do |pedido|
-			#pedido.liquidado_asesor=true
+		  @pedidos_contado_empresa = $pedidos_contado_empresa
+			@pedidos_contado_empresa.each do |pedido|
+				pedido.liquidado_asesor=true
+				pedido.save
+			end
 		end
 
     respond_to do |format|
@@ -105,7 +110,7 @@ class LiquidacionComisionsController < ApplicationController
   end
 
   def getPedidosSinLiquidarFromAsesor asesor_id, str_fecha
-    str = "asesor_id = " + asesor_id.to_s + " AND liquidado_asesor != 1" + str_fecha
+    str = "asesor_id = " + asesor_id.to_s + str_fecha
     pedidos = Pedido.where(str)
 		return pedidos
 	end
@@ -171,24 +176,26 @@ class LiquidacionComisionsController < ApplicationController
 		@monto_contado_empresa=0
 		pedidos_temp.each do |pedido|
 			if pedido.cuota.first != nil
-				if pedido.cuota.first.estado=="Pagado" && pedido.tipo_pago=="Credito"
-					@pedidos_credito.push(pedido)
-					if pedido.valor_credito!=nil
-						@monto_credito+=pedido.valor_credito
+				if !pedido.liquidado_asesor
+					if pedido.cuota.first.estado=="Pagado" && pedido.tipo_pago=="Credito"
+						@pedidos_credito.push(pedido)
+						if pedido.valor_credito!=nil
+							@monto_credito+=pedido.valor_credito
+						end
 					end
-				end
 
-				if pedido.cuota.first.estado=="Pagado" && pedido.tipo_pago=="Contado asesor"
-					@pedidos_credito.push(pedido)
-					if pedido.valor_credito!=nil
-						@monto_contado_asesor+=pedido.valor_credito
+					if pedido.cuota.first.estado=="Pagado" && pedido.tipo_pago=="Contado asesor"
+						@pedidos_credito.push(pedido)
+						if pedido.valor_credito!=nil
+							@monto_contado_asesor+=pedido.valor_credito
+						end
 					end
-				end
 
-				if pedido.cuota.first.estado=="Pagado" && pedido.tipo_pago=="Contado empresa"
-					@pedidos_credito.push(pedido)
-					if pedido.valor_credito!=nil
-						@monto_contado_empresa+=pedido.valor_credito
+					if pedido.cuota.first.estado=="Pagado" && pedido.tipo_pago=="Contado empresa"
+						@pedidos_credito.push(pedido)
+						if pedido.valor_credito!=nil
+							@monto_contado_empresa+=pedido.valor_credito
+						end
 					end
 				end
 			end

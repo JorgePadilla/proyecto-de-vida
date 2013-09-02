@@ -1,0 +1,32 @@
+#header{
+ display:none;
+}
+ 
+#page #page-bgtop #page-bgbtm #sidebar{
+ display:none;
+}
+ 
+#page #page-bgtop #page-bgbtm #content #post #print-button{
+ display:none;
+}
+
+#page #page-bgtop #page-bgbtm #content #post #notice{
+ display:none;
+}
+
+#page #page-bgtop #page-bgbtm #content #post #no-print{
+ display:none;
+}
+ 
+#footer-bgcontent {
+ display:none;
+}
+
+p{
+line-height: 0%;
+}
+
+table
+{
+ text-align:center;
+}
