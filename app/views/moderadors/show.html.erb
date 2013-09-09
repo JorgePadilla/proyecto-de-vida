@@ -19,6 +19,37 @@
   <%= @moderador.comision_credito %>
 </p>
 
+<h2>Liquidaciones</h2>
+<table>
+  <tr>
+    <th>Fecha</th>
+    <th>Monto</th>
+    <th>Fecha inicio</th>
+    <th>Fecha final</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @liquidacion_comisions = LiquidacionComision.where("empleado_id="+@moderador.id.to_s) %>
+
+<% @liquidacion_comisions.each do |liquidacion_comision| %>
+	<% if liquidacion_comision.rol=="moderador" %>
+		<tr>
+		  <td><%= liquidacion_comision.fecha %></td>
+		  <td><%= liquidacion_comision.monto %></td>
+		  <td><%= liquidacion_comision.fecha_inicio %></td>
+		  <td><%= liquidacion_comision.fecha_final %></td>
+		  <td><%= link_to 'Mostrar', liquidacion_comision %></td>
+	<!--
+		  <td><%= link_to 'Edit', edit_liquidacion_comision_path(liquidacion_comision) %></td>
+		  <td><%= link_to 'Destroy', liquidacion_comision, confirm: 'Are you sure?', method: :delete %></td>
+	-->
+		</tr>
+	<% end %>
+<% end %>
+</table>
+
 
 <%= link_to 'Editar', edit_moderador_path(@moderador) %> |
 <%= link_to 'Atrás', moderadors_path %>

@@ -5,6 +5,18 @@
 	<%if @liquidacion_comision.rol=="asesor"%>
 	  <%= Asesor.find_by_id(@liquidacion_comision.empleado_id).nombre %>
 	<%end%>
+	<%if @liquidacion_comision.rol=="moderador"%>
+	  <%= Moderador.find_by_id(@liquidacion_comision.empleado_id).nombre %>
+	<%end%>
+	<%if @liquidacion_comision.rol=="coordinador"%>
+	  <%= Coordinador.find_by_id(@liquidacion_comision.empleado_id).nombre %>
+	<%end%>
+	<%if @liquidacion_comision.rol=="director_comercial"%>
+	  <%= DirectorComercial.find_by_id(@liquidacion_comision.empleado_id).nombre %>
+	<%end%>
+	<%if @liquidacion_comision.rol=="gerente_comercial"%>
+	  <%= GerenteComercial.find_by_id(@liquidacion_comision.empleado_id).nombre %>
+	<%end%>
 </p>
 
 <p>
@@ -23,6 +35,36 @@
 	  <%= Asesor.find_by_id(@liquidacion_comision.empleado_id).comision_credito %>%
 </p>
 <%end%>
+
+<%if @liquidacion_comision.rol=="moderador"%>
+<p>
+  <b>Comision credito:</b>
+	  <%= Moderador.find_by_id(@liquidacion_comision.empleado_id).comision_credito %>%
+</p>
+<%end%>
+
+<%if @liquidacion_comision.rol=="coordinador"%>
+<p>
+  <b>Comision credito:</b>
+	  <%= Coordinador.find_by_id(@liquidacion_comision.empleado_id).comision_credito %>%
+</p>
+<%end%>
+
+<%if @liquidacion_comision.rol=="director_comercial"%>
+<p>
+  <b>Comision credito:</b>
+	  <%= DirectorComercial.find_by_id(@liquidacion_comision.empleado_id).comision_credito %>%
+</p>
+<%end%>
+
+
+<%if @liquidacion_comision.rol=="gerente_comercial"%>
+<p>
+  <b>Comision credito:</b>
+	  <%= GerenteComercial.find_by_id(@liquidacion_comision.empleado_id).comision_credito %>%
+</p>
+<%end%>
+
 
 <%if @liquidacion_comision.rol=="asesor"%>
 <p>
@@ -79,7 +121,7 @@
 	end
 %>
 
-<%= str="fecha_ingreso BETWEEN '" + 
+<% str="fecha_ingreso BETWEEN '" + 
 anio_inicio + "-" + 
 mes_inicio + "-" + 
 dia_inicio + "' and '" + 
@@ -107,7 +149,8 @@ dia_final + "'" %>
   </tr>
 
 <% @pedidos.each do |pedido| %>
-	<%if pedido.liquidado_asesor%>
+	<%if ( (pedido.liquidado_asesor && @liquidacion_comision.rol=="asesor") || (pedido.liquidado_moderador && @liquidacion_comision.rol=="moderador") || (pedido.liquidado_coordinador && @liquidacion_comision.rol=="coordinador") || (pedido.liquidado_director_comercial && @liquidacion_comision.rol=="director_comercial") || (pedido.liquidado_gerente_comercial && @liquidacion_comision.rol=="gerente_comercial") )
+	%>
 		<tr>
 		  <td><%= link_to pedido.asesor.nombre,pedido.asesor %></td>
 		  <td><%= pedido.evento %></td>

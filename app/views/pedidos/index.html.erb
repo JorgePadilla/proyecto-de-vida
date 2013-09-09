@@ -331,7 +331,7 @@
     <td><%= link_to 'Mostrar', pedido %></td>
     <%if soyAdministrador %>
     <td><%= link_to 'Editar', edit_pedido_path(pedido) %></td>
-    <!-- <td><%= link_to 'Eliminar', pedido, confirm: 'Esta seguro?', method: :delete %></td> -->
+    <td><%= link_to 'Eliminar', pedido, confirm: 'Esta seguro?', method: :delete %></td>
     <%end%>
   </tr>
 <% end %>

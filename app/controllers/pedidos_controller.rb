@@ -2,7 +2,7 @@ class PedidosController < ApplicationController
   # GET /pedidos
   # GET /pedidos.json
   def index
-    @pedidos = Pedido.order("fecha_ingreso DESC").limit(15).all
+    @pedidos = Pedido.order("fecha_ingreso DESC").limit(50).all
 
     respond_to do |format|
       format.html # index.html.erb
